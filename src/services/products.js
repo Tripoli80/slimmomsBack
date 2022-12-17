@@ -13,8 +13,6 @@ const addNewProduct = async newProduct => {};
 
 const getProduct = async str => {
   const query = new RegExp('.*' + str + '.*');
-  const query2 = new RegExp('.*');
-
   const products = await Product.find({
     $or: [{ 'title.ua': { $regex: query } }, { 'title.ru': { $regex: query } }],
   });
@@ -22,7 +20,12 @@ const getProduct = async str => {
   return products;
 };
 
+const getAllProduct = async () => {
+  const products = await Product.find({}, ['title', 'calories', 'categories']);
+  return products;
+};
+
 module.exports = {
   getProduct,
-  //   getAllProducts, file: products.js:19 ~ getProduct ~ p
+  getAllProduct,
 };
