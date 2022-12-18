@@ -23,6 +23,8 @@ const ss = process.std;
 const router = express.Router();
 
 router.post('/signup', validatorBody(schemaSignUp), tryWrapper(singUpUser));
+
+
 router.get('/login', validatorBody(schemaSingIn), tryWrapper(logInUser));
 router.get('/logout', tryWrapper(auth), tryWrapper(logout));
 router.get('/verify/:verificationToken', tryWrapper(verify));

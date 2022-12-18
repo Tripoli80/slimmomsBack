@@ -24,13 +24,11 @@ const schemaFavorite = Joi.object({
 });
 
 const schemaSignUp = Joi.object({
+  username: Joi.string().min(2).max(12).required(),
   password: Joi.string().min(6).max(12).required(),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "pro"] } })
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
     .required(),
-  subscription: Joi.string()
-    .valid("starter", "pro", "business")
-    .default("starter"),
 });
 const schemaSingIn = Joi.object({
   password: Joi.string().min(6).max(12).required(),

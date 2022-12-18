@@ -6,7 +6,9 @@ const router = express.Router();
 
 
 router.get('/', tryWrapper(allProducts));
-router.get('/:product', tryWrapper(currentProducts));
+router.get('/', tryWrapper(currentProducts));
+
+// router.get('/:product', tryWrapper(currentProducts));
 
 
 module.exports = router;

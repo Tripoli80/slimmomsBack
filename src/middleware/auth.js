@@ -12,12 +12,12 @@ const auth = async (req, res, next) => {
   if (!authorization) return next(new Unauthorized('Not authorized'));
   const [typeToken, token] = authorization.split(' ');
   if (typeToken !== 'Bearer') return next(new Unauthorized(`Type authorization not "Bearer"`));
-
   try {
     const { _id } = jwt.verify(token, secret);
+    console.log("first")
     const user = await User.findById(_id);
     if (!user || user.token != token) return next(new Unauthorized('Not authorized'));
-    if (!user.verify) throw new Unauthorized('Your mail address not verify');
+    // if (!user.verify) throw new Unauthorized('Your mail address not verify');
 
     req.userId = _id;
     return next();

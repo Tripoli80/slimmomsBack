@@ -9,23 +9,22 @@ const User = require('./schemas/users');
 const { verifyMailSend } = require('./mailer');
 
 const addNewUser = async newUser => {
-  const { password, email, subscription = 'starter', token = null } = newUser;
-  const verificationToken = uid(16);
+  const { password, email, username, token = null } = newUser;
+  // const verificationToken = uid(16);
   const user = new User({
     password,
     email,
-    subscription,
+    username,
     token,
-    verificationToken,
   });
+  console.log("🚀 ~ file: users.js:20 ~ addNewUser ~ user", user)
 
   try {
     const result = await user.save();
-    await verifyMailSend({ email, verificationToken });
-
+    // await verifyMailSend({ email, verificationToken });
     return result;
   } catch (error) {
-    await fs.unlink(pathName);
+    // await fs.unlink(pathName);
     console.log('🚀 ~ file: users.js ~ line 31 ~ addNewUser ~ error', error);
     throw new Conflict('Email in use');
   }
@@ -36,7 +35,7 @@ const authenticateUser = async ({ body }) => {
   const user = await User.findOne({ email });
   // chack user!
   if (!user) throw new Unauthorized('mail or password is wrong');
-  if (!user.verify) throw new Unauthorized('Your mail address not verify');
+  // if (!user.verify) throw new Unauthorized('Your mail address not verify');
 
   // check password!
   if (!(await bcrypt.compare(password, user.password)))

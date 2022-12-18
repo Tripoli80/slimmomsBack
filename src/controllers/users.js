@@ -9,8 +9,8 @@ const {
 } = require('../services/users');
 
 const singUpUser = async (req, res) => {
-  const { email, subscription } = await addNewUser(req.body);
-  return res.status(201).json({ user: { email, subscription } });
+  const { email, username } = await addNewUser(req.body);
+  return res.status(201).json({ user: { email, username } });
 };
 
 const logInUser = async (req, res) => {
