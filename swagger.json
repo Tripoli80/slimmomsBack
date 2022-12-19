@@ -1,0 +1,212 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.1",
+        "title": "SlimMom API Docs",
+        "description": "Endpoints for front-end",
+        "license": {
+            "name": "MIT"
+        }
+    },
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "servers":[
+        {
+            "url": "http://localhost:3008/", 
+            "description": "Local server"
+            }
+        ],
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Authentification user's"
+        }
+    ],
+    "paths": {
+        "/api/users/signup": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "User registration",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Regitrations object",
+                    "required": true,
+                    "content": {
+                        "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/RegistrationsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses" : {
+                    "201" : {
+                        "description": "Succesfully created",
+                        "content" : {
+                             "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/RegistrationsResponse"
+                             }
+                        }
+                        }
+                    },
+                    "400" : {
+                        "description": "Bad request",
+                        "content" : {}
+                    },
+                    "409" : {
+                        "description": "Provided email alredy esixts",
+                        "content" : {}
+                    }
+                }
+            }
+        },
+        "/api/users/login": {
+            "post": {
+                "tags": ["Auth"],
+                "produces": [
+          "application/json"
+        ],
+                "summary": "User login",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Login object",
+                    "required": true,
+                    "content": {
+                        "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Ok",
+                        "content" : {
+                             "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/LoginResponse"
+                             }
+                        }
+                        }
+                    },
+                    "401" : {
+                        "description": "Unauthorized",
+                        "content" : {}
+                    },
+                    "404" : {
+                        "description": "User not found",
+                        "content" : {}
+                    }
+                }
+            }
+        },
+        "/api/users/logout": {
+            "get": {
+                "tags": ["Auth"],
+                "summary": "User logout",
+                "parameters": [],
+                "security": [{"Bearer":[]}],
+                "responses" : {
+                    "204" : {
+                        "description": "Succesfull",
+                        "content" : {}
+                    },
+                    "401" : {
+                        "description": "Unauthorized",
+                        "content" : {}
+                    },
+                     "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas" :{
+            "RegistrationsRequest" : {
+                "type": "object",
+                "required": ["email", "name", "password"],
+                "properties" : {
+                "email" : {
+                    "type": "string",
+                    "description" : "User email",
+                    "format": "email"
+                },
+                "password" : {
+                    "type": "string",
+                    "description" : "User password",
+                    "example": "password123"
+                },
+                "username" : {
+                    "type": "string",
+                    "description" : "User name",
+                    "example": "John Dou"
+                }
+            }
+            },
+            "RegistrationsResponse" : {
+                "type": "object",
+                  "properties" : {
+                    "email" : {
+                        "type": "string",
+                        "description" : "User email",
+                        "format": "email"
+                },
+                    "username" : {
+                        "type": "string",
+                        "description" : "User name",
+                        "example": "John Dou"
+                }
+            }
+            },
+             "LoginRequest" : {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties" : {
+                "email" : {
+                    "type": "string",
+                    "description" : "User email",
+                    "format": "email"
+                },
+                "password" : {
+                    "type": "string",
+                    "description" : "User password",
+                    "example": "password123"
+                }
+            }
+            },
+             "LoginResponse" : {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties" : {
+                     "token" : {
+                    "type": "string",
+                    "description" : "Token",
+                    "example": "some.Token.123"
+                },
+                "email" : {
+                    "type": "string",
+                    "description" : "User email",
+                    "format": "email"
+                },
+                 "subscription" : {
+                    "type": "string",
+                    "description" : "subscritpion",
+                    "example": "starter"
+                }
+            }
+            }
+        },
+        "securitySchemes" : {
+            "Bearer" : {
+                "type": "http",
+                "scheme" : "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
