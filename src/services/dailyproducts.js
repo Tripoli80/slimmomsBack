@@ -5,7 +5,6 @@ const { isValidObjectId } = require('mongoose');
 const { WrongParams } = require('../helpers/errors');
 
 const addNewEat = async (data, owner) => {
-  // console.log("🚀 ~ file: dailyproducts.js:6 ~ addNewEat ~ data", data)
   const { product, weight, date } = data;
   if (!isValidObjectId(product)) {
     throw Error('Not valid id owner');
@@ -42,16 +41,11 @@ const removeEatedById = async (_id, owner) => {
 };
 
 const findEatedByDate = async (date, owner) => {
-  date = new Date(date)
+  date = new Date(date);
   date.setHours(0, 0, 0, 0);
-  console.log("🚀 ~ file: dailyproducts.js:47 ~ findEatedByDate ~ date", date)
-  
   let nextdate = new Date(date);
   nextdate.setDate(nextdate.getDate() + 1);
   nextdate.setHours(0, 0, 0, 0);
-  
-  console.log('🚀  ~ date', date, '/ ', nextdate);
-
   const result = await DiaryEatProducts.find({
     date: {
       $gte: date,
