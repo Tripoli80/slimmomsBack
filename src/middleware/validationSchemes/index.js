@@ -61,10 +61,12 @@ const schemaAddEatedProducts = Joi.object({
   weight: Joi.number().integer().required(),
   date: Joi.date().required(),
 });
-
-
+const schemaGetEatedByDay = Joi.object({
+  date: Joi.date().required(),
+});
 
 module.exports = {
+  schemaGetEatedByDay,
   schemaPOST,
   schemaAddEatedProducts,
   schemaDiet,

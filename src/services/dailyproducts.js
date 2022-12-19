@@ -41,14 +41,27 @@ const removeEatedById = async (_id, owner) => {
   return result;
 };
 
-// const findEatedByDate = async (date, owner) => {
-//   const result = await DiaryEatProducts.find({
-//     date,
-//     owner,
-//   });
-//   if (!result) {
-//     throw new WrongParams(`Not find in eated list whith id  ${_id}`);
-//   }
-//   return result;
-// };
-module.exports = { addNewEat, removeEatedById };
+const findEatedByDate = async (date, owner) => {
+  date = new Date(date)
+  date.setHours(0, 0, 0, 0);
+  console.log("🚀 ~ file: dailyproducts.js:47 ~ findEatedByDate ~ date", date)
+  
+  let nextdate = new Date(date);
+  nextdate.setDate(nextdate.getDate() + 1);
+  nextdate.setHours(0, 0, 0, 0);
+  
+  console.log('🚀  ~ date', date, '/ ', nextdate);
+
+  const result = await DiaryEatProducts.find({
+    date: {
+      $gte: date,
+      $lt: nextdate,
+    },
+    owner,
+  });
+  if (!result) {
+    throw new WrongParams(`Not find by date ${date}`);
+  }
+  return result;
+};
+module.exports = { addNewEat, removeEatedById, findEatedByDate };

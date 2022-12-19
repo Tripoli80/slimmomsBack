@@ -13,10 +13,12 @@ const product = new Schema(
       ua: {
         type: String,
         default: 'some title',
+        index: true,
       },
       ru: {
         type: String,
         default: 'some title',
+        index: true,
       },
     },
     calories: {
@@ -46,7 +48,7 @@ const product = new Schema(
       },
     ],
   },
-   {
+  {
     timestamps: true,
   }
 );
