@@ -127,6 +127,46 @@
           }
                 }
             }
+        },
+        "/api/users/": {
+            "patch": {
+                "tags": ["Auth"],
+                "summary": "Update user subscription ",
+                "parameters": [],
+                "security": [{"Bearer":[]}],
+                 "requestBody": {
+                    "description": "Change subscription",
+                    "required": true,
+                    "content": {
+                        "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/SubscriptionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Your subscription succesfully changed",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/SubscriptionResponse"
+                            }
+                        }
+                        }
+                    },
+                    "400": {
+            "description": "Bad Requesr",
+            "content": {}
+          }, 
+                    "401" : {
+                        "description": "Unauthorized",
+                        "content" : {}
+                    }
+                     
+                }
+            }
         }
     },
     "components": {
@@ -164,6 +204,11 @@
                         "type": "string",
                         "description" : "User name",
                         "example": "John Dou"
+                },
+                 "verificationToken" : {
+                    "type": "string",
+                    "description" : "verificationToken",
+                    "example": "dfktunktuvd"
                 }
             }
             },
@@ -203,7 +248,30 @@
                     "example": "starter"
                 }
             }
+            },
+            
+            "SubscriptionRequest" : {
+                 "type": "object",
+                "required": ["subscription"],
+                "properties" : {
+                 "subscription" : {
+                    "type": "string",
+                    "description" : "subscritpion",
+                    "example": "starter | pro | business"
+                }
             }
+        },
+         "SubscriptionResponse" : {
+                 "type": "object",
+                "required": ["subscription"],
+                "properties" : {
+                 "subscription" : {
+                    "type": "string",
+                    "description" : "subscritpion",
+                    "example": "starter | pro | business"
+                }
+            }
+        }
         },
         "securitySchemes" : {
             "Bearer" : {
