@@ -9,6 +9,7 @@ const { errorHandler, tryWrapper } = require('./helpers');
 const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products')
 const dietRouter = require('./routes/diet');
+const dailyRouter = require('./routes/dailyproducts');
 
 
 const app = express();
@@ -23,6 +24,8 @@ app.use(express.static('public'));
 app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/diet', dietRouter);
+app.use('/api/daily',tryWrapper(auth), dailyRouter);
+
 
 
 // app.use('/api/contacts', tryWrapper(auth), contactsRouter);
