@@ -43,7 +43,7 @@ const authenticateUser = async ({ body }) => {
 
   const secret = process.env.SECRET;
   const payload = { _id: user._id };
-  const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+  const token = jwt.sign(payload, secret, { expiresIn: '24h' });
   user.token = token;
   // generate and save JWT
   try {
