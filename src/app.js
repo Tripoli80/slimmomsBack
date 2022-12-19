@@ -11,6 +11,7 @@ const productsRouter = require('./routes/products')
 const dietRouter = require('./routes/diet');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
+const dailyRouter = require('./routes/dailyproducts');
 
 
 const app = express();
@@ -28,6 +29,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/diet', dietRouter);
+app.use('/api/daily',tryWrapper(auth), dailyRouter);
+
 
 
 // app.use('/api/contacts', tryWrapper(auth), contactsRouter);
