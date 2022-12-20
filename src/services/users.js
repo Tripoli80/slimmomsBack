@@ -7,6 +7,7 @@ const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors');
 
 const User = require('./schemas/users');
 const { verifyMailSend } = require('./mailer');
+const { generateToken } = require('../helpers/generateToken');
 
 const addNewUser = async newUser => {
   const { password, email, username, token = null } = newUser;
@@ -39,15 +40,10 @@ const authenticateUser = async ({ body }) => {
   // check password!
   if (!(await bcrypt.compare(password, user.password)))
     throw new Unauthorized('mail or password is wrong');
-
-  const secret = process.env.SECRET;
-  const payload = { _id: user._id };
-  const token = jwt.sign(payload, secret, { expiresIn: '23h' });
-  const longToken = jwt.sign(payload, secret, { expiresIn: '180h' });
-
+  const { token, longToken } = await generateToken(user._id);
   user.token = token;
   user.longtoken = longToken;
-  // generate and save JWT
+
   try {
     await user.save();
     return user;
@@ -59,11 +55,7 @@ const refreshToken = async ({ userId }) => {
   const user = await User.findById(userId);
   // chack user!
   if (!user) throw new Unauthorized('Not authorized');
-  const secret = process.env.SECRET;
-  const payload = { _id: user._id };
-  const token = jwt.sign(payload, secret, { expiresIn: '23h' });
-  const longToken = jwt.sign(payload, secret, { expiresIn: '180h' });
-
+  const { token, longToken } = await generateToken(user._id);
   user.token = token;
   user.longtoken = longToken;
   // generate and save JWT
@@ -80,6 +72,7 @@ const singOut = async ({ userId }) => {
   if (!user) throw new Unauthorized('Not authorized');
   try {
     user.token = null;
+    user.longtoken = null;
     await user.save();
     return;
   } catch (error) {
