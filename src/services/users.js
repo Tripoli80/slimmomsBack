@@ -1,13 +1,9 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const fs = require('fs').promises;
-const path = require('path');
 const { uid } = require('uid');
 const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors');
-
-const User = require('./schemas/users');
 const { verifyMailSend } = require('./mailer');
 const { generateToken } = require('../helpers/generateToken');
+const User = require('../models/schemasMongoose/users');
 
 const addNewUser = async newUser => {
   const { password, email, username, token = null } = newUser;
@@ -22,10 +18,8 @@ const addNewUser = async newUser => {
 
   try {
     const result = await user.save();
-    // await verifyMailSend({ email, verificationToken });
     return result;
   } catch (error) {
-    // await fs.unlink(pathName);
     throw new Conflict('Email in use');
   }
 };
@@ -33,10 +27,7 @@ const addNewUser = async newUser => {
 const authenticateUser = async ({ body }) => {
   const { password, email } = body;
   const user = await User.findOne({ email });
-  // chack user!
   if (!user) throw new Unauthorized('mail or password is wrong');
-  // if (!user.verify) throw new Unauthorized('Your mail address not verify');
-
   // check password!
   if (!(await bcrypt.compare(password, user.password)))
     throw new Unauthorized('mail or password is wrong');

@@ -1,7 +1,7 @@
 const express = require('express');
 const { diet } = require('../controllers/diet');
 const { validatorBody } = require('../middleware/validationBody');
-const { schemaDiet } = require('../middleware/validationSchemes');
+const { schemaDiet } = require('../models/schemasJoi');
 const { tryWrapper } = require('../helpers');
 
 const router = express.Router();

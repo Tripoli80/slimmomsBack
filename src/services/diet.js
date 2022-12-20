@@ -1,4 +1,4 @@
-const Product = require('./schemas/products');
+const Product = require('../models/schemasMongoose/products');
 
 const getDiet = async data => {
   const { blood, height, age, cWeight, dWeight } = data;

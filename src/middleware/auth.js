@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const { Unauthorized } = require('http-errors');
-const User = require('../services/schemas/users');
+const User = require('../models/schemasMongoose/users');
 // const secret = process.env.SECRET;
 
 const auth = async (req, res, next) => {

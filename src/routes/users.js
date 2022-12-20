@@ -18,7 +18,7 @@ const {
   schemaSingIn,
   schemaSubscription,
   schemaReVerify,
-} = require('../middleware/validationSchemes');
+} = require('../models/schemasJoi');
 const ss = process.std;
 const router = express.Router();
 
