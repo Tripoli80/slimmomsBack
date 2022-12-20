@@ -19,9 +19,16 @@ const getDiet = async data => {
     case 4:
       key = { 'groupBloodNotAllowed.4': true };
       break;
+    default:
+      console.log(`Sorry, we are out of ${blood}.`);
   }
 
-  const products = await Product.find(key).limit(10);
+  const products = await Product.aggregate([
+    { $match: key },
+    {
+      $group: { _id: '$categories', count: { $sum: 1 } },
+    },
+  ]);
   return {
     dailyCalorie,
     products,
