@@ -24,6 +24,10 @@
         {
             "name": "Auth",
             "description": "Authentification user's"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
         }
     ],
     "paths": {
@@ -167,6 +171,57 @@
                      
                 }
             }
+        },
+        "/api/users/current": {
+            "get": {
+                "tags": ["Auth"],
+                "summary": "Update user subscription ",
+                "parameters": [],
+                "security": [{"Bearer":[]}],
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/CurrentResponse"
+                            }
+                        }
+                        }
+                    },
+                    "401" : {
+                        "description": "Unauthorized",
+                        "content" : {}
+                    },
+                         "404": {
+            "description": "Not Found",
+            "content": {}
+          }          
+                }
+            }
+        },
+        "/api/products/": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "All products",
+                "parameters": [],
+                "responses" : {
+                    "200" : {
+                        "description": "List of all products",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/AllProductsResponse"
+                            }
+                        }
+                        }
+                    },
+                         "404": {
+            "description": "Not Found",
+            "content": {}
+          }          
+                }
+            }
         }
     },
     "components": {
@@ -230,22 +285,21 @@
             },
              "LoginResponse" : {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": ["email", "token"],
                 "properties" : {
                      "token" : {
                     "type": "string",
                     "description" : "Token",
                     "example": "some.Token.123"
                 },
-                "email" : {
-                    "type": "string",
-                    "description" : "User email",
-                    "format": "email"
-                },
-                 "subscription" : {
-                    "type": "string",
-                    "description" : "subscritpion",
-                    "example": "starter"
+                "user" :{
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "format":"email"
+                        }
+                    }
                 }
             }
             },
@@ -271,6 +325,60 @@
                     "example": "starter | pro | business"
                 }
             }
+        }, 
+        "CurrentResponse" : {
+             "type": "object",
+                "required": ["email","subscription"],
+                "properties" : {
+                 "subscription" : {
+                    "type": "string",
+                    "description" : "subscritpion",
+                    "example": "starter | pro | business"
+                },
+                "email" : {
+                    "type": "string",
+                    "description" : "User email",
+                    "format": "email"
+                }
+            }
+        },
+        "AllProductsResponse" : {
+             "type": "array",
+             "items": {
+                "type": "object",
+                "properties": {
+                "title": {
+                "type" :"object",
+                "properties" :{
+                 "ru": {
+                   "type": "string",
+                   "description": "The name of the product in a foreign language",
+                "example": "Яйцо куриное"
+                 },
+                 "ua": {
+                   "type": "string",
+                   "description": "The name of the product in a foreign language",
+                "example": "Яйцо куриное"
+                 }
+                }
+    },
+    "_id": {
+        "type": "number",
+        "example": "5d51694802b2373622ff553b"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type":"string",
+        "example": "яйце"
+      }
+    },
+    "calories": {
+        "type": "number",
+        "example": "625"
+    }
+                }
+             }
         }
         },
         "securitySchemes" : {
