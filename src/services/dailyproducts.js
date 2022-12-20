@@ -58,4 +58,6 @@ const findEatedByDate = async (date, owner) => {
   }
   return result;
 };
+
+
 module.exports = { addNewEat, removeEatedById, findEatedByDate };

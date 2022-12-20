@@ -4,9 +4,9 @@ const {
   logInUser,
   logout,
   current,
-  subscription,
   verify,
   reVerify,
+  relogIn,
 } = require('../controllers/users');
 // const upload = require('../middleware/multer');
 
@@ -24,20 +24,11 @@ const router = express.Router();
 
 router.post('/signup', validatorBody(schemaSignUp), tryWrapper(singUpUser));
 
-
 router.post('/login', validatorBody(schemaSingIn), tryWrapper(logInUser));
 router.get('/logout', tryWrapper(auth), tryWrapper(logout));
 router.get('/verify/:verificationToken', tryWrapper(verify));
 router.post('/verify', validatorBody(schemaReVerify), tryWrapper(reVerify));
-router.patch('/', tryWrapper(auth), validatorBody(schemaSubscription), tryWrapper(subscription));
-// router.patch(
-//   '/avatars',
-//   tryWrapper(auth),
-//   validatorHeaders(schemaAvatar),
-//   upload.single('avatar'),
-//   tryWrapper(resizeAvatars),
-//   tryWrapper(avatar)
-// );
 router.get('/current', tryWrapper(auth), tryWrapper(current));
+router.post('/refresh', tryWrapper(auth), tryWrapper(relogIn));
 
 module.exports = router;

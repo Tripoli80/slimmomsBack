@@ -17,7 +17,7 @@ const addNewUser = async newUser => {
     username,
     token,
   });
-  console.log("🚀 ~ file: users.js:20 ~ addNewUser ~ user", user)
+  console.log('🚀 ~ file: users.js:20 ~ addNewUser ~ user', user);
 
   try {
     const result = await user.save();
@@ -25,7 +25,6 @@ const addNewUser = async newUser => {
     return result;
   } catch (error) {
     // await fs.unlink(pathName);
-    console.log('🚀 ~ file: users.js ~ line 31 ~ addNewUser ~ error', error);
     throw new Conflict('Email in use');
   }
 };
@@ -44,7 +43,29 @@ const authenticateUser = async ({ body }) => {
   const secret = process.env.SECRET;
   const payload = { _id: user._id };
   const token = jwt.sign(payload, secret, { expiresIn: '23h' });
+  const longToken = jwt.sign(payload, secret, { expiresIn: '180h' });
+
   user.token = token;
+  user.longtoken = longToken;
+  // generate and save JWT
+  try {
+    await user.save();
+    return user;
+  } catch (error) {
+    throw new Error({ massage: 'Cannot generate user token' });
+  }
+};
+const refreshToken = async ({ userId }) => {
+  const user = await User.findById(userId);
+  // chack user!
+  if (!user) throw new Unauthorized('Not authorized');
+  const secret = process.env.SECRET;
+  const payload = { _id: user._id };
+  const token = jwt.sign(payload, secret, { expiresIn: '23h' });
+  const longToken = jwt.sign(payload, secret, { expiresIn: '180h' });
+
+  user.token = token;
+  user.longtoken = longToken;
   // generate and save JWT
   try {
     await user.save();
@@ -69,22 +90,8 @@ const singOut = async ({ userId }) => {
 const getUserData = async ({ userId }) => {
   const user = await User.findById(userId);
   if (!user) throw new Unauthorized('Not authorized');
-  const { email, subscription } = user;
-  return { email, subscription };
-};
-
-const changeSubscription = async ({ userId, body }) => {
-  const user = await User.findById(userId);
-  // chack user!
-  if (!user) throw new Unauthorized('Not authorized');
-
-  try {
-    user.subscription = body.subscription;
-    const { email, subscription } = await user.save();
-    return { email, subscription };
-  } catch (error) {
-    throw new Error({ massage: 'Cannot change subscription user' });
-  }
+  const { email, username } = user;
+  return { email, username };
 };
 
 const verifyUser = async ({ params }) => {
@@ -92,7 +99,6 @@ const verifyUser = async ({ params }) => {
   const user = await User.findOne({ verificationToken });
   if (!user || user.verify) throw new NotFound();
   user.verify = true;
-  // user.verificationToken = "dscddscds";
   try {
     await user.save();
     return {
@@ -126,7 +132,7 @@ module.exports = {
   authenticateUser,
   singOut,
   getUserData,
-  changeSubscription,
   verifyUser,
   reVerifyUser,
+  refreshToken,
 };

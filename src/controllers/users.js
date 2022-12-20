@@ -3,9 +3,9 @@ const {
   authenticateUser,
   singOut,
   getUserData,
-  changeSubscription,
   verifyUser,
   reVerifyUser,
+  refreshToken,
 } = require('../services/users');
 
 const singUpUser = async (req, res) => {
@@ -14,11 +14,12 @@ const singUpUser = async (req, res) => {
 };
 
 const logInUser = async (req, res) => {
-  const { token, email, subscription } = await authenticateUser(req);
+  const { token, longtoken, email, username } = await authenticateUser(req);
   res.status(200);
   return res.json({
     token,
-    user: { email, subscription },
+    longtoken,
+    user: { username, email },
   });
 };
 
@@ -32,11 +33,6 @@ const current = async (req, res) => {
   return res.status(200).json(response);
 };
 
-const subscription = async (req, res) => {
-  const response = await changeSubscription(req);
-  return res.status(200).json(response);
-};
-
 const verify = async (req, res) => {
   const response = await verifyUser(req);
   return res.status(200).json(response);
@@ -47,12 +43,22 @@ const reVerify = async (req, res) => {
   return res.status(200).json(response);
 };
 
+const relogIn = async (req, res) => {
+  const { token, longtoken, email, username } = await refreshToken(req);
+  res.status(200);
+  return res.json({
+    token,
+    longtoken,
+    user: { username, email },
+  });
+};
+
 module.exports = {
   singUpUser,
   logInUser,
   logout,
   current,
-  subscription,
   verify,
   reVerify,
+  relogIn,
 };
