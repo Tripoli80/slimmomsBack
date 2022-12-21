@@ -136,46 +136,6 @@
                 }
             }
         },
-        "/api/users/": {
-            "patch": {
-                "tags": ["Auth"],
-                "summary": "Update user subscription ",
-                "parameters": [],
-                "security": [{"Bearer":[]}],
-                 "requestBody": {
-                    "description": "Change subscription",
-                    "required": true,
-                    "content": {
-                        "application/json" : {
-                            "schema" :{
-                                    "$ref": "#/components/schemas/SubscriptionRequest"
-                            }
-                        }
-                    }
-                },
-                "responses" : {
-                    "200" : {
-                        "description": "Your subscription succesfully changed",
-                        "content" : {
-                            "application/json" : {
-                            "schema" :{
-                                    "$ref": "#/components/schemas/SubscriptionResponse"
-                            }
-                        }
-                        }
-                    },
-                    "400": {
-            "description": "Bad Requesr",
-            "content": {}
-          }, 
-                    "401" : {
-                        "description": "Unauthorized",
-                        "content" : {}
-                    }
-                     
-                }
-            }
-        },
         "/api/users/current": {
             "get": {
                 "tags": ["Auth"],
@@ -341,36 +301,14 @@
                 }
             }
             },         
-             "SubscriptionRequest" : {
-                 "type": "object",
-                "required": ["subscription"],
-                "properties" : {
-                 "subscription" : {
-                    "type": "string",
-                    "description" : "subscritpion",
-                    "example": "starter | pro | business"
-                }
-            }
-            },
-             "SubscriptionResponse" : {
-                 "type": "object",
-                "required": ["subscription"],
-                "properties" : {
-                 "subscription" : {
-                    "type": "string",
-                    "description" : "subscritpion",
-                    "example": "starter | pro | business"
-                }
-            }
-            }, 
              "CurrentResponse" : {
              "type": "object",
-                "required": ["email","subscription"],
+                "required": ["email","username"],
                 "properties" : {
-                 "subscription" : {
+                 "username" : {
                     "type": "string",
-                    "description" : "subscritpion",
-                    "example": "starter | pro | business"
+                    "description" : "username",
+                    "example": "someUser123"
                 },
                 "email" : {
                     "type": "string",
