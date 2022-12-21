@@ -1,13 +1,4 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const fs = require('fs').promises;
-const path = require('path');
-const { uid } = require('uid');
-const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors');
-
-const Product = require('./schemas/products');
-const { title } = require('process');
-const { string } = require('joi');
+const Product = require('../models/schemasMongoose/products');
 
 const addNewProduct = async newProduct => {};
 

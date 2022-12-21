@@ -1,7 +1,6 @@
-const DiaryEatProducts = require('./schemas/diaryEatProducts');
-const Product = require('./schemas/products');
-const User = require('./schemas/users');
 const { isValidObjectId } = require('mongoose');
+const DiaryEatProducts = require('../models/schemasMongoose/diaryEatProducts');
+const Product = require('../models/schemasMongoose/products');
 const { WrongParams } = require('../helpers/errors');
 
 const addNewEat = async (data, owner) => {
@@ -58,4 +57,6 @@ const findEatedByDate = async (date, owner) => {
   }
   return result;
 };
+
+
 module.exports = { addNewEat, removeEatedById, findEatedByDate };

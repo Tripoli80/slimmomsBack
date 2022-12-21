@@ -20,6 +20,10 @@ const user = new Schema(
       type: String,
       default: null,
     },
+    longtoken: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,
