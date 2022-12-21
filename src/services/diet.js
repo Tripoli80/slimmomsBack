@@ -7,16 +7,16 @@ const getDiet = async data => {
   );
   let key;
   switch (blood) {
-    case 1:
+    case '1':
       key = { 'groupBloodNotAllowed.1': true };
       break;
-    case 2:
+    case '2':
       key = { 'groupBloodNotAllowed.2': true };
       break;
-    case 3:
+    case '3':
       key = { 'groupBloodNotAllowed.3': true };
       break;
-    case 4:
+    case '4':
       key = { 'groupBloodNotAllowed.4': true };
       break;
     default:
