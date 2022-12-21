@@ -27,7 +27,11 @@
         },
         {
             "name": "Products",
-            "description": "Products"
+            "description": "List of products for user"
+        },
+         {
+            "name": "Diet",
+            "description": "Diet for user"
         }
     ],
     "paths": {
@@ -222,6 +226,40 @@
           }          
                 }
             }
+        },
+        "/api/diet/": {
+            "post": {
+                "tags": ["Diet"],
+                "summary": "Diet",
+                "parameters": [],
+                "requestBody": {
+                 "description": "User body params",
+                 "required": true,
+                 "content" :{
+                    "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/DietRequest"
+                             }
+                        }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/DietResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          }          
+                }
+            }
         }
     },
     "components": {
@@ -302,9 +340,19 @@
                     }
                 }
             }
+            },         
+             "SubscriptionRequest" : {
+                 "type": "object",
+                "required": ["subscription"],
+                "properties" : {
+                 "subscription" : {
+                    "type": "string",
+                    "description" : "subscritpion",
+                    "example": "starter | pro | business"
+                }
+            }
             },
-            
-            "SubscriptionRequest" : {
+             "SubscriptionResponse" : {
                  "type": "object",
                 "required": ["subscription"],
                 "properties" : {
@@ -314,19 +362,8 @@
                     "example": "starter | pro | business"
                 }
             }
-        },
-         "SubscriptionResponse" : {
-                 "type": "object",
-                "required": ["subscription"],
-                "properties" : {
-                 "subscription" : {
-                    "type": "string",
-                    "description" : "subscritpion",
-                    "example": "starter | pro | business"
-                }
-            }
-        }, 
-        "CurrentResponse" : {
+            }, 
+             "CurrentResponse" : {
              "type": "object",
                 "required": ["email","subscription"],
                 "properties" : {
@@ -341,8 +378,8 @@
                     "format": "email"
                 }
             }
-        },
-        "AllProductsResponse" : {
+            },
+             "AllProductsResponse" : {
              "type": "array",
              "items": {
                 "type": "object",
@@ -358,7 +395,7 @@
                  "ua": {
                    "type": "string",
                    "description": "The name of the product in a foreign language",
-                "example": "Яйцо куриное"
+                "example": "Яйцe куряче"
                  }
                 }
     },
@@ -379,7 +416,85 @@
     }
                 }
              }
-        }
+            },
+            "DietRequest": {
+             "type": "object",
+             "properties": {
+                "blood": {
+                    "type": "number",
+                    "description": "Blood type number",
+                    "example": 2
+                },
+                "age": {
+                    "type": "number",
+                    "description": "User age",
+                    "example": 27
+                },
+                "height": {
+                    "type": "number",
+                    "description": "User height",
+                    "example": 181
+                },
+                "cWeight": {
+                    "type": "number",
+                    "description": "User cWeight",
+                    "example": 95
+                },
+                "dWeight": {
+                    "type": "number",
+                    "description": "User dWeight",
+                    "example": 86
+                }
+             }
+            },
+            "DietResponse": {
+                "type": "object",
+                "properties": {
+                    "dailyCalories": {
+                        "type": "number",
+                        "description": "User calories for 1 day",
+                        "example": 1871
+                    },
+                    "products" : {
+                          "type": "array",
+             "items": {
+                "type": "object",
+                "properties": {
+                "title": {
+                "type" :"object",
+                "properties" :{
+                 "ru": {
+                   "type": "string",
+                   "description": "The name of the product in a foreign language",
+                "example": "Яйцо куриное"
+                 },
+                 "ua": {
+                   "type": "string",
+                   "description": "The name of the product in a foreign language",
+                "example": "Яйцe куряче"
+                 }
+                }
+    },
+    "_id": {
+        "type": "number",
+        "example": "5d51694802b2373622ff553b"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type":"string",
+        "example": "яйце"
+      }
+    },
+    "calories": {
+        "type": "number",
+        "example": "625"
+    }
+                }
+             }
+                    }
+                }
+            }
         },
         "securitySchemes" : {
             "Bearer" : {
