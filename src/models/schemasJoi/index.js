@@ -53,8 +53,8 @@ const schemaDiet = Joi.object({
   blood: Joi.number().integer().allow(1, 2, 3, 4).only().required(),
   height: Joi.number().integer().max(225).min(50).required(),
   age: Joi.number().integer().max(110).min(1).required(),
-  cWeight: Joi.number().integer().max(110).min(1).required(),
-  dWeight: Joi.number().integer().max(110).min(1).required(),
+  cWeight: Joi.number().integer().max(150).min(1).required(),
+  dWeight: Joi.number().integer().max(150).min(1).required(),
 });
 const schemaAddEatedProducts = Joi.object({
   product: Joi.string().required(),

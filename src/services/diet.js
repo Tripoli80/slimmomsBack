@@ -26,7 +26,7 @@ const getDiet = async data => {
   // products = aggregat разом з match шукає в базі даних (похоже до find)
   // group = з результату match сортує по категоріям дані (схоже на ruducer)
 
-  const products = await Product.find(key).limit(50);
+  const products = await Product.find(key).limit(20);
   // const products = await Product.aggregate([
   //   { $match: key },
   //   {
