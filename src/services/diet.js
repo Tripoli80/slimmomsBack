@@ -25,12 +25,14 @@ const getDiet = async data => {
 
   // products = aggregat разом з match шукає в базі даних (похоже до find)
   // group = з результату match сортує по категоріям дані (схоже на ruducer)
-  const products = await Product.aggregate([
-    { $match: key },
-    {
-      $group: { _id: '$categories', count: { $sum: 1 } },
-    },
-  ]);
+
+  const products = await Product.find(key).limit(10);
+  // const products = await Product.aggregate([
+  //   { $match: key },
+  //   {
+  //     $group: { _id: '$categories', count: { $sum: 1 } },
+  //   },
+  // ]);
   return {
     dailyCalorie,
     products,
