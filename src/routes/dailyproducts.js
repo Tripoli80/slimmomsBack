@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.post('/addeated', validatorBody(schemaAddEatedProducts), tryWrapper(addProductToDiary));
 router.delete('/:eatedId', tryWrapper(removeEated));
-router.post('/', validatorBody(schemaGetEatedByDay), tryWrapper(findByDate));
+// router.post('/', validatorBody(schemaGetEatedByDay), tryWrapper(findByDate));
+router.get('/', tryWrapper(findByDate));
+
 
 module.exports = router;

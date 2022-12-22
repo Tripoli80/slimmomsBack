@@ -16,7 +16,7 @@ const removeEated = async (req, res) => {
 };
 const findByDate = async (req, res) => {
   const {
-    body: { date },
+    query: { date },
     userId,
   } = req;
   const products = await findEatedByDate(date, userId);

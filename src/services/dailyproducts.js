@@ -41,6 +41,10 @@ const removeEatedById = async (_id, owner) => {
 
 const findEatedByDate = async (date, owner) => {
   date = new Date(date);
+  if (!Date.parse(date)) {
+    throw new WrongParams(`Not correct date`);
+  }
+
   date.setHours(0, 0, 0, 0);
   let nextdate = new Date(date);
   nextdate.setDate(nextdate.getDate() + 1);
