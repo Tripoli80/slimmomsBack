@@ -1,10 +1,10 @@
 const { getDiet } = require('../services/diet');
-const DiaryEatProducts = require('../services/schemas/diaryEatProducts');
-const User = require('../services/schemas/users');
+const DiaryEatProducts = require('../models/schemasMongoose/diaryEatProducts');
+// const User = require('../services/schemas/users');
 
 const diet = async (req, res) => {
   const { body } = req;
-  console.log("🚀 ~ file: diet.js:5 ~ diet ~ body", body)
+  console.log('🚀 ~ file: diet.js:5 ~ diet ~ body', body);
   const response = await getDiet(body);
   return res.status(200).json(response);
 };
