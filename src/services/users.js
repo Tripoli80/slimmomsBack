@@ -74,8 +74,8 @@ const singOut = async ({ userId }) => {
 const getUserData = async ({ userId }) => {
   const user = await User.findById(userId);
   if (!user) throw new Unauthorized('Not authorized');
-  const { email, username } = user;
-  return { email, username };
+  const { email, subscription, _id } = user;
+  return { email, subscription, _id };
 };
 
 const verifyUser = async ({ params }) => {
