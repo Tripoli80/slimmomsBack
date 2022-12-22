@@ -23,6 +23,8 @@ const getDiet = async data => {
       console.log(`Sorry, we are out of ${blood}.`);
   }
 
+  // products = aggregat разом з match шукає в базі даних (похоже до find)
+  // group = з результату match сортує по категоріям дані (схоже на ruducer)
   const products = await Product.aggregate([
     { $match: key },
     {
