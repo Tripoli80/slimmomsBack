@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/', validatorBody(schemaDiet), tryWrapper(diet));
+router.post('/', validatorBody(schemaDiet), tryWrapper(diet));
 router.post('/:id', tryWrapper(auth), validatorBody(schemaDiet), tryWrapper(createMyDietParams));
 // router.get('/:product', tryWrapper(currentProducts));
 
