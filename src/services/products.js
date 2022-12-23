@@ -3,11 +3,10 @@ const Product = require('../models/schemasMongoose/products');
 const addNewProduct = async newProduct => {};
 
 const getProduct = async str => {
-  const query = new RegExp('.*' + str + '.*');
+  const query = new RegExp('.*' + str + '.*', 'i');
   const products = await Product.find({
     $or: [{ 'title.ua': { $regex: query } }, { 'title.ru': { $regex: query } }],
   });
-
   return products;
 };
 
