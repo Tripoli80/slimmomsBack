@@ -5,26 +5,30 @@ const diet = new Schema(
       type: SchemaTypes.ObjectId,
       ref: 'user',
     },
-    cWaigth: {
+    cWeight: {
       type: Number,
-      required: [true, 'weight is required'],
+      required: [true, 'cWaigth is required'],
     },
-    dWaigth: {
+    dWeight: {
       type: Number,
-      required: [true, 'weight is required'],
+      required: [true, 'dWaigth is required'],
     },
-    haight: {
+    height: {
       type: Number,
-      required: [true, 'weight is required'],
+      required: [true, 'haight is required'],
+    },
+    age: {
+      type: Number,
+      required: [true, 'age is required'],
     },
     date: {
       type: Date,
       required: [true, 'Date is required'],
     },
 
-    blod: {
+    blood: {
       type: Number,
-      required: [true, 'blod is required'],
+      required: [true, 'blood is required'],
     },
     answer: {
       type: Object,
@@ -35,6 +39,6 @@ const diet = new Schema(
   }
 );
 
-const PersonalDiet = model('diaryeat', diet);
+const PersonalDiet = model('personaldiet', diet);
 
 module.exports = PersonalDiet;

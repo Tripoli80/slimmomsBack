@@ -37,9 +37,6 @@ const schemaSingIn = Joi.object({
     .required(),
 });
 
-const schemaSubscription = Joi.object({
-  subscription: Joi.string().valid('starter', 'pro', 'business').required(),
-});
 const schemaAvatar = Joi.object({
   contentType: Joi.string().label('multipart/form-data').required(),
 });
@@ -51,10 +48,10 @@ const schemaReVerify = Joi.object({
 
 const schemaDiet = Joi.object({
   blood: Joi.number().integer().allow(1, 2, 3, 4).only().required(),
-  height: Joi.number().integer().max(225).min(50).required(),
-  age: Joi.number().integer().max(110).min(1).required(),
-  cWeight: Joi.number().integer().max(150).min(1).required(),
-  dWeight: Joi.number().integer().max(150).min(1).required(),
+  height: Joi.number().integer().max(250).min(100).required(),
+  age: Joi.number().integer().max(100).min(18).required(),
+  cWeight: Joi.number().integer().max(500).min(20).required(),
+  dWeight: Joi.number().integer().max(500).min(20).required(),
 });
 const schemaAddEatedProducts = Joi.object({
   product: Joi.string().required(),
@@ -74,7 +71,6 @@ module.exports = {
   schemaFavorite,
   schemaSignUp,
   schemaSingIn,
-  schemaSubscription,
   schemaAvatar,
   schemaReVerify,
 };
