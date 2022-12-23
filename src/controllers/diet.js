@@ -1,18 +1,15 @@
-const { getDiet, getPersonalDiet, getLastDiet, getLastDiets } = require('../services/diet');
+const { getGuestDiet, createPersonalDiet, getLastDiet, getLastDiets } = require('../services/diet');
 
-const DiaryEatProducts = require('../models/schemasMongoose/diaryEatProducts');
-// const User = require('../services/schemas/users');
-
-const diet = async (req, res) => {
+const guestDiet = async (req, res) => {
   const { body } = req;
-  const response = await getDiet(body);
+  const response = await getGuestDiet(body);
   return res.status(200).json(response);
 };
 
-const createMyDietParams = async (req, res) => {
+const createMyDiet = async (req, res) => {
   const { body, userId } = req;
 
-  const response = await getPersonalDiet(body, userId);
+  const response = await createPersonalDiet(body, userId);
 
   res.status(201).json(response);
 };
@@ -27,4 +24,4 @@ const findMyDiets = async (req, res) => {
   const myDiets = await getLastDiets(userId);
   res.status(200).json(myDiets);
 };
-module.exports = { diet, createMyDietParams, findMyDiet, findMyDiets };
+module.exports = { guestDiet, createMyDiet, findMyDiet, findMyDiets };

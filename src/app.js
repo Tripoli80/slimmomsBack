@@ -27,8 +27,8 @@ app.use(express.static('public'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/users', usersRouter);
-app.use('/api/products', tryWrapper(auth), productsRouter);
 app.use('/api/diet', dietRouter);
+app.use('/api/products', tryWrapper(auth), productsRouter);
 app.use('/api/daily',tryWrapper(auth), dailyRouter);
 
 
