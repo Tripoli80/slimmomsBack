@@ -1,4 +1,5 @@
 const { getDiet, getPersonalDiet, getLastDiet, getLastDiets } = require('../services/diet');
+
 const DiaryEatProducts = require('../models/schemasMongoose/diaryEatProducts');
 // const User = require('../services/schemas/users');
 
@@ -10,8 +11,7 @@ const diet = async (req, res) => {
 
 const createMyDietParams = async (req, res) => {
   const { body, userId } = req;
-  console.log('🚀 ~ file: diet.js:13 ~ createMyDietParams ~ userId', userId);
-  console.log('🚀 ~ file: diet.js:13 ~ createMyDietParams ~ body', body);
+
   const response = await getPersonalDiet(body, userId);
 
   res.status(201).json(response);

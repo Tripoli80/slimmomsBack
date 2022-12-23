@@ -8,6 +8,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 
 router.post('/', validatorBody(schemaDiet), tryWrapper(diet));
+
 router.post(
   '/personal',
   tryWrapper(auth),

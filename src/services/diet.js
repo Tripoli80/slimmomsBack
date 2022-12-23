@@ -20,7 +20,9 @@ const getPersonalDiet = async (data, owner) => {
   );
   const products = await getProducts(blood);
   const answer = { dailyCalorie, products };
+
   const date = new Date();
+
   const personalDiet = new PersonalDiet({
     owner,
     blood,
@@ -37,7 +39,7 @@ const getPersonalDiet = async (data, owner) => {
 
     return answer;
   } catch (error) {
-    throw new Error('can not Save');
+    throw new Error('Сan not Save');
   }
 };
 const getLastDiet = async owner => {
