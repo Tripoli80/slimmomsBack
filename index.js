@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
   });
   connection
     .then(
-      app.listen(PORT, async () => {  
+      app.listen(PORT, async () => {
         console.log('Server running. Use our API on port: ', PORT);
       })
     )

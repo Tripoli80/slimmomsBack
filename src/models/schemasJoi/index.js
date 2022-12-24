@@ -61,8 +61,16 @@ const schemaAddEatedProducts = Joi.object({
 const schemaGetEatedByDay = Joi.object({
   date: Joi.date().required(),
 });
+const schemaNewProduct = Joi.object({
+  title: Joi.string().required(),
+  categories: Joi.string().required(),
+  weight: Joi.number().integer().required(),
+  calories: Joi.number().integer().required(),
+  groupBloodNotAllowed: Joi.number().integer(),
+});
 
 module.exports = {
+  schemaNewProduct,
   schemaGetEatedByDay,
   schemaPOST,
   schemaAddEatedProducts,
