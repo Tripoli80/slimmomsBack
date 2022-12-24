@@ -20,6 +20,16 @@ const product = new Schema(
         default: 'some title',
         index: true,
       },
+      en: {
+        type: String,
+        default: 'some title',
+        index: true,
+      },
+      deu: {
+        type: String,
+        default: 'some title',
+        index: true,
+      },
     },
     calories: {
       type: Number,
