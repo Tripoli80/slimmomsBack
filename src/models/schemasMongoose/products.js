@@ -21,7 +21,7 @@ const product = new Schema(
         type: String,
         default: 'some categories',
         index: true,
-      }
+      },
     },
     weight: {
       type: Number,
@@ -74,19 +74,7 @@ const product = new Schema(
         type: Boolean,
         default: false,
       },
-<<<<<<< HEAD
-    ]
-=======
-<<<<<<< HEAD
-    ]
-=======
     ],
-    owner: {
-      type: SchemaTypes.ObjectId,
-      ref: 'user',
-    },
->>>>>>> main
->>>>>>> main
   },
   {
     timestamps: true,
