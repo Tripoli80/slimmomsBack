@@ -60,6 +60,9 @@ const findEatedByDate = async (date, owner) => {
   const idsProducts = result.map(item => {
     return { _id: item.product };
   });
+  if (idsProducts.length === 0 || !idsProducts) { 
+    return []
+  }
   const products = await Product.find({ $or: idsProducts });
 
   const response = result.map(item => {

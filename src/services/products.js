@@ -12,6 +12,8 @@ const getProduct = async str => {
       { 'title.deu': { $regex: query } },
     ],
   }).limit(10);
+  console.log("🚀 ~ file: products.js:15 ~ getProduct ~ products", products)
+  
   return products;
 };
 
