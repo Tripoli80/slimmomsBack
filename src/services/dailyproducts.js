@@ -49,6 +49,7 @@ const findEatedByDate = async (date, owner) => {
   let nextdate = new Date(date);
   nextdate.setDate(nextdate.getDate() + 1);
   nextdate.setHours(0, 0, 0, 0);
+
   const result = await DiaryEatProducts.find({
     date: {
       $gte: date,
@@ -56,10 +57,27 @@ const findEatedByDate = async (date, owner) => {
     },
     owner,
   });
+  const idsProducts = result.map(item => {
+    return { _id: item.product };
+  });
+  const products = await Product.find({ $or: idsProducts });
+
+  const response = result.map(item => {
+    let prepareProduct = {};
+    for (const product of products) {
+      if (product._id.toString() === item.product.toString()) {
+        const { _id, owner, weight } = item;
+        prepareProduct = { _id, owner, weight };
+        prepareProduct.intakeCalories = (product.calories * item.weight) / 100;
+        prepareProduct.product = product;
+        return prepareProduct;
+      }
+    }
+  });
   if (!result) {
     throw new WrongParams(`Not find by date ${date}`);
   }
-  return result;
+  return response;
 };
 
 module.exports = { addNewEat, removeEatedById, findEatedByDate };
