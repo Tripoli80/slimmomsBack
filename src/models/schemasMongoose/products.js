@@ -74,7 +74,15 @@ const product = new Schema(
         type: Boolean,
         default: false,
       },
+<<<<<<< HEAD
     ]
+=======
+    ],
+    owner: {
+      type: SchemaTypes.ObjectId,
+      ref: 'user',
+    },
+>>>>>>> main
   },
   {
     timestamps: true,
