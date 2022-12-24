@@ -1,9 +1,27 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, SchemaTypes } = require('mongoose');
 const product = new Schema(
   {
     categories: {
-      type: Array,
-      required: [true, 'categories is required'],
+      ua: {
+        type: String,
+        default: 'some categories',
+        index: true,
+      },
+      ru: {
+        type: String,
+        default: 'some categories',
+        index: true,
+      },
+      en: {
+        type: String,
+        default: 'some categories',
+        index: true,
+      },
+      deu: {
+        type: String,
+        default: 'some categories',
+        index: true,
+      }
     },
     weight: {
       type: Number,
@@ -57,6 +75,10 @@ const product = new Schema(
         default: false,
       },
     ],
+    owner: {
+      type: SchemaTypes.ObjectId,
+      ref: 'user',
+    },
   },
   {
     timestamps: true,
