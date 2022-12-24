@@ -13,7 +13,7 @@ const mongoose = require('mongoose');
       app.listen(PORT, async () => {
         console.log('Server running. Use our API on port: ', PORT);
       })
-    )
+    ) 
     .catch(err => {
       console.log(`Server not running. Error message: ${err.message}`);
     });
