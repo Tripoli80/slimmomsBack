@@ -5,8 +5,13 @@ const addNewProduct = async newProduct => {};
 const getProduct = async str => {
   const query = new RegExp('.*' + str + '.*', 'i');
   const products = await Product.find({
-    $or: [{ 'title.ua': { $regex: query } }, { 'title.ru': { $regex: query } }],
-  });
+    $or: [
+      { 'title.ua': { $regex: query } },
+      { 'title.ru': { $regex: query } },
+      { 'title.en': { $regex: query } },
+      { 'title.deu': { $regex: query } },
+    ],
+  }).limit(10);
   return products;
 };
 
