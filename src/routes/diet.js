@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post('/', validatorBody(schemaDiet), tryWrapper(guestDiet));
 //AUTH
-router.post('/personal', tryWrapper(auth), validatorBody(schemaDiet), tryWrapper(createMyDiet));
+router.post('/', tryWrapper(auth), validatorBody(schemaDiet), tryWrapper(createMyDiet));
 router.get('/', tryWrapper(auth), tryWrapper(findMyDiet));
 router.get('/all', tryWrapper(auth), tryWrapper(findMyDiets));
 
