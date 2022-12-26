@@ -1,13 +1,12 @@
 const bcrypt = require('bcrypt');
 const { uid } = require('uid');
 const { Conflict, Unauthorized, NotFound, BadRequest } = require('http-errors');
-const { verifyMailSend } = require('./mailer');
+const { verifyMailSend, resetMailSend } = require('./mailer');
 const { generateToken } = require('../helpers/generateToken');
 const User = require('../models/schemasMongoose/users');
 
 const addNewUser = async newUser => {
   const { password, email, username, token = null } = newUser;
-  // const verificationToken = uid(16);
   const user = new User({
     password,
     email,
@@ -20,6 +19,45 @@ const addNewUser = async newUser => {
     return result;
   } catch (error) {
     throw new Conflict('Email in use');
+  }
+};
+
+const sendMailToResetPassword = async ({ email }) => {
+  const user = await User.findOne({ email });
+  if (!user) throw new Unauthorized('mail or password is wrong');
+  const resettoken = uid(32);
+  user.resettoken = resettoken;
+  try {
+    await user.save();
+    await resetMailSend({ email, resettoken });
+    return {
+      message: 'Verification email sent',
+    };
+  } catch (error) {
+    throw new Error({ massage: 'Cannot generate user token' });
+  }
+};
+const validateTokenToReset = async ({ token }) => {
+  // (" 🚀~ file: users.js:41 ~ validateTokenToReset ~ token", token)
+  const user = await User.findOne({ resettoken: token });
+  if (!user) throw new NotFound('token is wrong');
+  return { massage: 'Token valid' };
+};
+
+const saveNewPassword = async ({ password, token }) => {
+  const user = await User.findOne({ resettoken: token });
+  if (!user) throw new NotFound('token is wrong');
+  user.password = password;
+  user.resettoken = "";
+
+  try {
+    await user.save();
+    // await resetMailSend({ email });
+    return {
+      message: 'Password sucsess changed',
+    };
+  } catch (error) {
+    throw new Error('Can not pass change');
   }
 };
 
@@ -118,4 +156,7 @@ module.exports = {
   verifyUser,
   reVerifyUser,
   refreshToken,
+  sendMailToResetPassword,
+  saveNewPassword,
+  validateTokenToReset,
 };
