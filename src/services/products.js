@@ -58,7 +58,7 @@ const getProduct = async (userId, str) => {
       { 'title.en': { $regex: query }, $or: [{ owner: null }, { owner: userId }] },
       { 'title.deu': { $regex: query }, $or: [{ owner: null }, { owner: userId }] },
     ],
-  }).limit(15);
+  }).limit(5);
 
   return products;
 };

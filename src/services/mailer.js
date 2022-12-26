@@ -30,4 +30,20 @@ const verifyMailSend = async ({ email, verificationToken }) => {
   }
 };
 
-module.exports = { verifyMailSend };
+const resetMailSend = async ({ email, resettoken }) => {
+  const html = `<a href=${process.env.BASE_URL}api/users/verify/${resettoken}>Click on link to verify your email</a>`;
+  const emailOptions = {
+    from: 'no-reply@uait.pro',
+    to: email,
+    subject: 'Slims Mom password reset',
+    html: html,
+  };
+  try {
+    const response = await transporter.sendMail(emailOptions);
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+module.exports = { verifyMailSend, resetMailSend };

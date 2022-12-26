@@ -30,6 +30,18 @@ const schemaSignUp = Joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
     .required(),
 });
+const schemaMailReset = Joi.object({
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
+    .required(),
+});
+const schemaReset = Joi.object({
+  password: Joi.string().min(6).max(12).required(),
+  token: Joi.string().required(),
+});
+const schemaCheckReset = Joi.object({
+  token: Joi.string().required(),
+});
 const schemaSingIn = Joi.object({
   password: Joi.string().min(6).max(12).required(),
   email: Joi.string()
@@ -69,6 +81,8 @@ const schemaNewProduct = Joi.object({
 });
 
 module.exports = {
+  schemaReset,
+  schemaMailReset,
   schemaNewProduct,
   schemaGetEatedByDay,
   schemaPOST,
@@ -80,4 +94,5 @@ module.exports = {
   schemaSingIn,
   schemaAvatar,
   schemaReVerify,
+  schemaCheckReset,
 };

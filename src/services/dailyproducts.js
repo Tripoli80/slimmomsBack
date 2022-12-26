@@ -6,7 +6,7 @@ const { WrongParams } = require('../helpers/errors');
 const addNewEat = async (data, owner) => {
   const { product, weight, date } = data;
   if (!isValidObjectId(product)) {
-    throw Error('Not valid id owner');
+    throw Error('Not valid id product');
   }
 
   const productExist = await Product.findById(product);
