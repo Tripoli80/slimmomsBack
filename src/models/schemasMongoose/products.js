@@ -75,12 +75,14 @@ const product = new Schema(
         default: false,
       },
     ],
+
     owner: {
       $oid: {
         type: String,
         default: '639e4e34049fa5a8dc6d6d35',
       },
     },
+
   },
   {
     timestamps: true,
