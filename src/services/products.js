@@ -21,7 +21,7 @@ const Product = require('../models/schemasMongoose/products');
 //   __v: 0,
 // };
 const addNewProduct = async ({ userId, body }) => {
-  let { title, categories, weight, calories, groupBloodNotAllowed } = body;
+  let { title, categories, weight, calories } = body;
   const newProduct = new Product({
     categories: {
       ua: categories,
@@ -40,21 +40,25 @@ const addNewProduct = async ({ userId, body }) => {
     groupBloodNotAllowed: [null, false, false, false, false],
     owner: userId,
   });
+
+  try {
+    const result = await newProduct.save();
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
-const getProduct = async str => {
+const getProduct = async (userId, str) => {
   const query = new RegExp('.*' + str + '.*', 'i');
-  const products = await Product.find(
-    {
-      $or: [
-        { 'title.ua': { $regex: query } },
-        { 'title.ru': { $regex: query } },
-        { 'title.en': { $regex: query } },
-        { 'title.deu': { $regex: query } },
-      ],
-    },
-    ['title', 'calories', '_id']
-  ).limit(5);
+  const products = await Product.find({
+    $or: [
+      { 'title.ua': { $regex: query }, $or: [{ owner: null }, { owner: userId }] },
+      { 'title.ru': { $regex: query }, $or: [{ owner: null }, { owner: userId }] },
+      { 'title.en': { $regex: query }, $or: [{ owner: null }, { owner: userId }] },
+      { 'title.deu': { $regex: query }, $or: [{ owner: null }, { owner: userId }] },
+    ],
+  }).limit(15);
 
   return products;
 };
