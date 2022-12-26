@@ -25,7 +25,6 @@ const addNewEat = async (data, owner) => {
     const productData = await Product.findById(result.product);
     let response = { _id: result._id, weight, owner, product: productData };
     response.intakeCalories = (productData.calories * result.weight) / 100;
-
     return response;
   } catch (error) {
     throw new Error(error);

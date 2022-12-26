@@ -14,7 +14,6 @@ const addNewUser = async newUser => {
     username,
     token,
   });
-  console.log('🚀 ~ file: users.js:20 ~ addNewUser ~ user', user);
 
   try {
     const result = await user.save();
@@ -74,8 +73,8 @@ const singOut = async ({ userId }) => {
 const getUserData = async ({ userId }) => {
   const user = await User.findById(userId);
   if (!user) throw new Unauthorized('Not authorized');
-  const { email, subscription, _id } = user;
-  return { email, subscription, _id };
+  const { email, username, _id } = user;
+  return { email, username, _id };
 };
 
 const verifyUser = async ({ params }) => {
