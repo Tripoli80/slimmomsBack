@@ -6,11 +6,27 @@ const {
   verifyUser,
   reVerifyUser,
   refreshToken,
+  sendMailToResetPassword,
+  saveNewPassword,
+  validateTokenToReset,
 } = require('../services/users');
 
 const singUpUser = async (req, res) => {
   const { email, username } = await addNewUser(req.body);
   return res.status(201).json({ user: { email, username } });
+};
+const resetMailPassword = async (req, res) => {
+  const response = await sendMailToResetPassword(req.body);
+  return res.status(200).json(response);
+};
+
+const checkTokenToReset = async (req, res) => {
+  const response = await validateTokenToReset(req.body);
+  return res.status(202).json(response);
+};
+const resetPassword = async (req, res) => {
+  const response = await saveNewPassword(req.body);
+  return res.status(200).json(response);
 };
 
 const logInUser = async (req, res) => {
@@ -60,5 +76,8 @@ module.exports = {
   current,
   verify,
   reVerify,
+  resetMailPassword,
   relogIn,
+  resetPassword,
+  checkTokenToReset,
 };
