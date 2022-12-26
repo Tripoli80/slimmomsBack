@@ -54,8 +54,7 @@ const getProduct = async str => {
       ],
     },
     ['title', 'calories', '_id']
-  ).limit(10);
-  console.log('🚀 ~ file: products.js:15 ~ getProduct ~ products', products);
+  ).limit(5);
 
   return products;
 };
