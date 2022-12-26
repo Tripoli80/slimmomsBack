@@ -32,6 +32,10 @@
          {
             "name": "Diet",
             "description": "Diet for user"
+        },
+        {
+            "name": "Daily products",
+            "description": "Products list for one day"
         }
     ],
     "paths": {
@@ -190,7 +194,7 @@
         "/api/diet/": {
             "post": {
                 "tags": ["Diet"],
-                "summary": "Diet",
+                "summary": "Diet for non auth users",
                 "parameters": [],
                 "requestBody": {
                  "description": "User body params",
@@ -218,6 +222,112 @@
             "description": "Bad Request",
             "content": {}
           }          
+                }
+            }
+        },
+        "/api/diet/personal": {
+            "post": {
+                "tags": ["Diet"],
+                "summary": "Diet for auth users",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+                "requestBody": {
+                 "description": "User body params",
+                 "required": true,
+                 "content" :{
+                    "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/DietRequest"
+                             }
+                        }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/DietResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          }          
+                }
+            }
+        },
+        "/api/diet/all": {
+            "get": {
+                "tags": ["Diet"],
+                "summary": "List of users diets",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/AllDietResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          }   ,
+                       "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }   
+                }
+            }
+        },
+        "/api/daily/addeated": {
+            "post": {
+                "tags": ["Daily products"],
+                "summary": "Daily products",
+                "parameters": [],
+                "security": [{"Bearer":[]}],
+                "requestBody": {
+                 "description": "",
+                 "required": true,
+                 "content" :{
+                    "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/DailyProductsRequest"
+                             }
+                        }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/DailyProductsResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {}
+          }                             
                 }
             }
         }
@@ -432,6 +542,81 @@
              }
                     }
                 }
+            },
+            "DailyProductsRequest": {
+                "type": "object",
+                "properties" :{
+                    "owner": {
+                        "type": "string",
+                        "description": "owner name",
+                        "example":"John Dou"
+                    },
+                    "product": {
+                        "type": "string",
+                        "description": "Product fo adding",
+                        "example":"Яйцe куряче"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "description": "Weight of eated product",
+                        "example": 121
+                    },
+                    "date" :{
+                        "type": "string",
+                        "description": "Date when user add product",
+                        "example": "12.12.2022"
+                    }
+                }
+            },
+            "DailyProductsResponse": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                        "type": "string",
+                        "description": "owner name",
+                        "example":"John Dou"
+                    },
+                    "product": {
+                        "type": "string",
+                        "description": "Product fo adding",
+                        "example":"Яйцe куряче"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "description": "Weight of eated product",
+                        "example": 121
+                    },
+                    "date" :{
+                        "type": "string",
+                        "description": "Date when user add product",
+                        "example": "12.12.2022"
+                    }
+              }
+            },
+            "AllDietResponse" :{
+                "type": "object",
+              "properties": {
+                "owner": {
+                        "type": "string",
+                        "description": "owner name",
+                        "example":"John Dou"
+                    },
+                    "product": {
+                        "type": "string",
+                        "description": "Product fo adding",
+                        "example":"Яйцe куряче"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "description": "Weight of eated product",
+                        "example": 121
+                    },
+                    "date" :{
+                        "type": "string",
+                        "description": "Date when user add product",
+                        "example": "12.12.2022"
+                    }
+              }
             }
         },
         "securitySchemes" : {
