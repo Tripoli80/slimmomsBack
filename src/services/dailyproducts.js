@@ -22,9 +22,12 @@ const addNewEat = async (data, owner) => {
 
   try {
     const result = await itemEat.save();
-    return result;
+    const productData = await Product.findById(result.product);
+    let response = { _id: result._id, weight, owner, product: productData };
+    response.intakeCalories = (productData.calories * result.weight) / 100;
+    return response;
   } catch (error) {
-    throw new Error({ message: error.message });
+    throw new Error(error);
   }
 };
 
@@ -57,11 +60,12 @@ const findEatedByDate = async (date, owner) => {
     },
     owner,
   });
+
   const idsProducts = result.map(item => {
     return { _id: item.product };
   });
-  if (idsProducts.length === 0 || !idsProducts) { 
-    return []
+  if (idsProducts.length === 0 || !idsProducts) {
+    return [];
   }
   const products = await Product.find({ $or: idsProducts });
 

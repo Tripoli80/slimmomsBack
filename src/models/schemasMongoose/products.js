@@ -75,6 +75,11 @@ const product = new Schema(
         default: false,
       },
     ],
+
+    owner: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

@@ -2,13 +2,13 @@ const { getProduct, getAllProduct, addNewProduct } = require('../services/produc
 
 const currentProducts = async (req, res) => {
   let {
+    userId,
     query: { product },
   } = req;
   product = decodeURI(product);
-  // console.log('🚀 ~ file: products.js:6 ~ currentProducts ~ product', product);
 
   if (product.length < 3) return res.status(200).json({ massege: 'product name min 3 symbol' });
-  const response = await getProduct(product);
+  const response = await getProduct(userId,product);
   return res.status(200).json(response);
 };
 

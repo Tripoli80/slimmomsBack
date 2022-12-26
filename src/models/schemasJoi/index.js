@@ -66,7 +66,6 @@ const schemaNewProduct = Joi.object({
   categories: Joi.string().required(),
   weight: Joi.number().integer().required(),
   calories: Joi.number().integer().required(),
-  groupBloodNotAllowed: Joi.number().integer(),
 });
 
 module.exports = {
