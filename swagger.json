@@ -168,6 +168,66 @@
                 }
             }
         },
+        "/api/users/mailtoreset": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Reset Email",
+                "parameters": [],
+                "requestBody": {
+                 "description": "Email object",
+                 "required": true,
+                 "content":{
+                    "application/json": {
+                        "schema": {
+                            "$ref":"#/components/schemas/MailToResetRequest"
+                        }
+                    }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Verification email sent",
+                        "content" : {}
+                    },
+                    "400" : {
+                        "description": "Email or password wrong",
+                        "content" : {}
+                    }
+                }
+            }
+        },
+        "/api/users/checktoreset": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Check token for reset",
+                "parameters": [],
+                "requestBody": {
+                 "description": "Email object",
+                 "required": true,
+                 "content":{
+                    "application/json": {
+                        "schema": {
+                            "$ref":"#/components/schemas/TokenVerification"
+                        }
+                    }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Token is valid",
+                        "content" : {
+                            "application/json" :{
+                                "message": "Token is valid"
+                            }
+                        }
+                    },
+                    "404" : {
+                        "description": "Token is wrong",
+                        "content" : {}
+                    }
+                }
+            }
+        },
         "/api/products/": {
             "get": {
                 "tags": ["Products"],
@@ -544,6 +604,26 @@
                     }
                 }
             }
+            },
+            "MailToResetRequest": {
+                "type": "object",
+                "required": ["email"],
+                "properties" : {
+                "email" : {
+                    "type": "string",
+                    "description" : "User email",
+                    "format": "email"
+                }}
+            },
+            "TokenVerification":{
+                "type": "object",
+                "required": ["token"],
+                "properties" : {
+                "token" : {
+                    "type": "string",
+                    "description" : "Reset token",
+                    "example": "someToken"
+                }}
             },         
              "CurrentResponse" : {
              "type": "object",
