@@ -52,20 +52,15 @@ exports.googleRedirect = async (req, res) => {
       username: userData.data.name,
       email: userData.data.email,
     });
-    console.log('create!', newUser._id);
-  } else {
-    console.log('find!', newUser._id);
-  }
-  // const token = jwt.sign({ id: newUser._id }, process.env.SECRET, {
-  //   expiresIn: '20m',
-  // });
+  
+  } 
 
   const { token, longToken } = await generateToken(newUser._id);
   newUser.token = token;
   newUser.longtoken = longToken;
 
   await newUser.save();
-  console.log('save!', newUser._id);
+
 
   return res.redirect(
     `${process.env.FRONTEND_URL}/google-registration?token=${token}&longtoken=${newUser.longtoken}&email=${newUser.email}&username=${newUser.username}`

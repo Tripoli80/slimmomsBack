@@ -9,12 +9,6 @@ const user = new Schema(
     },
     password: {
       type: String,
-<<<<<<< HEAD
-
-      // select: false,
-=======
-      select: false,
->>>>>>> GOOGLE
       // required: [true, 'Password is required'],
     },
     email: {
@@ -48,5 +42,4 @@ user.pre('save', async function (next) {
   next();
 });
 const User = model('user', user);
-
 module.exports = User;

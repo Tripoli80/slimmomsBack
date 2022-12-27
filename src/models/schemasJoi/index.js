@@ -4,7 +4,7 @@ const schemaPOST = Joi.object({
   name: Joi.string().alphanum().min(3).max(30).required(),
 
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
+    .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
   phone: Joi.string().alphanum().min(5).max(10).required(),
   favorite: Joi.boolean().optional().default(false),
@@ -12,10 +12,9 @@ const schemaPOST = Joi.object({
 
 const schemaPUT = Joi.object({
   name: Joi.string().alphanum().min(3).max(30),
-  email: Joi.string().email({
-    minDomainSegments: 2,
-    tlds: { allow: ['com', 'net', 'pro'] },
-  }),
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
+    .required(),
   phone: Joi.string().alphanum().min(3).max(10),
 });
 
@@ -27,12 +26,12 @@ const schemaSignUp = Joi.object({
   username: Joi.string().min(2).max(12).required(),
   password: Joi.string().min(6).max(12),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
+    .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
 });
 const schemaMailReset = Joi.object({
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
+    .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
 });
 const schemaReset = Joi.object({
@@ -45,7 +44,7 @@ const schemaCheckReset = Joi.object({
 const schemaSingIn = Joi.object({
   password: Joi.string().min(6).max(12),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
+    .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
 });
 
@@ -54,7 +53,7 @@ const schemaAvatar = Joi.object({
 });
 const schemaReVerify = Joi.object({
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
+    .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
 });
 
