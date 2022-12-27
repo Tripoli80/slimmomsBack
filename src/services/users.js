@@ -6,18 +6,22 @@ const { generateToken } = require('../helpers/generateToken');
 const User = require('../models/schemasMongoose/users');
 
 const addNewUser = async newUser => {
-  let { password, email, username, token = null } = newUser;
+  let { password, email, username } = newUser;
   email = email.toLowerCase();
   const user = new User({
     password,
     email,
     username,
-    token,
+    token: null,
   });
 
   try {
-    const result = await user.save();
-    return result;
+    let result = await user.save();
+    const { token, longToken } = await generateToken(result._id);
+    result.token = token;
+    result.longtoken = longToken;
+    const response = await result.save();
+    return response;
   } catch (error) {
     throw new Conflict('Email in use');
   }

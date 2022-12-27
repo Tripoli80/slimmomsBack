@@ -12,8 +12,8 @@ const {
 } = require('../services/users');
 
 const singUpUser = async (req, res) => {
-  const { email, username } = await addNewUser(req.body);
-  return res.status(201).json({ user: { email, username } });
+  const { email, username, longtoken, token } = await addNewUser(req.body);
+  return res.status(201).json({ user: { email, username }, longtoken, token });
 };
 const resetMailPassword = async (req, res) => {
   const response = await sendMailToResetPassword(req.body);

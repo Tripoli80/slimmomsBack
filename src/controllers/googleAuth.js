@@ -52,15 +52,13 @@ exports.googleRedirect = async (req, res) => {
       username: userData.data.name,
       email: userData.data.email,
     });
-  
-  } 
+  }
 
   const { token, longToken } = await generateToken(newUser._id);
   newUser.token = token;
   newUser.longtoken = longToken;
 
   await newUser.save();
-
 
   return res.redirect(
     `${process.env.FRONTEND_URL}/google-registration?token=${token}&longtoken=${newUser.longtoken}&email=${newUser.email}&username=${newUser.username}`
