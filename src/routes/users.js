@@ -30,7 +30,7 @@ const router = express.Router();
 
 router.post('/signup', validatorBody(schemaSignUp), tryWrapper(singUpUser));
 router.post('/mailtoreset', validatorBody(schemaMailReset), tryWrapper(resetMailPassword));
-router.post('/chacktoreset', validatorBody(schemaCheckReset), tryWrapper(checkTokenToReset));
+router.post('/checktoreset', validatorBody(schemaCheckReset), tryWrapper(checkTokenToReset));
 router.post('/reset', validatorBody(schemaReset), tryWrapper(resetPassword));
 
 

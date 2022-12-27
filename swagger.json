@@ -32,6 +32,10 @@
          {
             "name": "Diet",
             "description": "Diet for user"
+        },
+        {
+            "name": "Daily products",
+            "description": "Products list for one day"
         }
     ],
     "paths": {
@@ -164,6 +168,66 @@
                 }
             }
         },
+        "/api/users/mailtoreset": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Reset Email",
+                "parameters": [],
+                "requestBody": {
+                 "description": "Email object",
+                 "required": true,
+                 "content":{
+                    "application/json": {
+                        "schema": {
+                            "$ref":"#/components/schemas/MailToResetRequest"
+                        }
+                    }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Verification email sent",
+                        "content" : {}
+                    },
+                    "400" : {
+                        "description": "Email or password wrong",
+                        "content" : {}
+                    }
+                }
+            }
+        },
+        "/api/users/checktoreset": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Check token for reset",
+                "parameters": [],
+                "requestBody": {
+                 "description": "Email object",
+                 "required": true,
+                 "content":{
+                    "application/json": {
+                        "schema": {
+                            "$ref":"#/components/schemas/TokenVerification"
+                        }
+                    }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Token is valid",
+                        "content" : {
+                            "application/json" :{
+                                "message": "Token is valid"
+                            }
+                        }
+                    },
+                    "404" : {
+                        "description": "Token is wrong",
+                        "content" : {}
+                    }
+                }
+            }
+        },
         "/api/products/": {
             "get": {
                 "tags": ["Products"],
@@ -185,12 +249,45 @@
             "content": {}
           }          
                 }
+            },
+            "post": {
+                "tags": ["Products"],
+                "summary": "Create product",
+                "parameters": [],
+                "security": [{"Bearer":[]}],
+                "requestBody":{
+                    "description": "Create product",
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/CreateProduct"
+                            }
+                        }
+                    }
+                },
+                "responses" : {
+                    "201" : {
+                        "description": "Create product",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/CreateProduct"
+                            }
+                        }
+                        }
+                    },
+                         "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }          
+                }
             }
-        },
+        },  
         "/api/diet/": {
             "post": {
                 "tags": ["Diet"],
-                "summary": "Diet",
+                "summary": "Diet for non auth users",
                 "parameters": [],
                 "requestBody": {
                  "description": "User body params",
@@ -218,6 +315,213 @@
             "description": "Bad Request",
             "content": {}
           }          
+                }
+            },
+            "get": {
+                "tags": ["Diet"],
+                "summary": "User diet",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/AllDietResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          }   ,
+                       "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }   
+                }
+            }
+        },
+        "/api/diet/personal": {
+            "post": {
+                "tags": ["Diet"],
+                "summary": "Diet for auth users",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+                "requestBody": {
+                 "description": "User body params",
+                 "required": true,
+                 "content" :{
+                    "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/DietRequest"
+                             }
+                        }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/DietResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          }          
+                }
+            }
+        },
+        "/api/diet/all": {
+            "get": {
+                "tags": ["Diet"],
+                "summary": "List of users diets",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/OneDietResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          }   ,
+                       "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }   
+                }
+            }
+        },
+        "/api/daily/addeated": {
+            "post": {
+                "tags": ["Daily products"],
+                "summary": "Daily products",
+                "parameters": [],
+                "security": [{"Bearer":[]}],
+                "requestBody": {
+                 "description": "Product to add",
+                 "required": true,
+                 "content" :{
+                    "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/DailyProductsRequest"
+                             }
+                        }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/DailyProductsResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {}
+          }                             
+                }
+            }
+        },
+        "/api/daily/{eatedId}" :{
+            "delete": {
+                "tags": ["Daily products"],
+                "summary": "Daily products",
+                "parameters": [
+                    {
+"name": "eatedId",
+"in": "path",
+"description": "product id to delete",
+"required": true,
+"type": "string"
+}
+                ],
+                "security": [{"Bearer":[]}],
+                "responses" : {
+                    "204" : {
+                        "description": "Succesfull deleted",
+                        "content" : {}
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {}
+          }                             
+                }
+            }
+        },
+        "/api/daily/" :{
+            "get": {
+                "tags": ["Daily products"],
+                "summary": "Daily products",
+                "parameters": [
+                    {
+"name": "date",
+"in": "query",
+"description": "Date",
+"required": true,
+"type": "string",
+"example":"12.12.2022"
+}
+                ],
+                "security": [{"Bearer":[]}],
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull deleted",
+                        "content" : {
+                             "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/GetProductByDate"
+                             }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {}
+          }                             
                 }
             }
         }
@@ -300,6 +604,26 @@
                     }
                 }
             }
+            },
+            "MailToResetRequest": {
+                "type": "object",
+                "required": ["email"],
+                "properties" : {
+                "email" : {
+                    "type": "string",
+                    "description" : "User email",
+                    "format": "email"
+                }}
+            },
+            "TokenVerification":{
+                "type": "object",
+                "required": ["token"],
+                "properties" : {
+                "token" : {
+                    "type": "string",
+                    "description" : "Reset token",
+                    "example": "someToken"
+                }}
             },         
              "CurrentResponse" : {
              "type": "object",
@@ -430,6 +754,335 @@
     }
                 }
              }
+                    }
+                }
+            },
+            "DailyProductsRequest": {
+                "type": "object",
+                "properties" :{
+                    "product": {
+                        "type": "string",
+                        "description": "Product for adding",
+                        "example":"5d51694802b2373622ff554d"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "description": "Weight of eated product",
+                        "example": 121
+                    },
+                    "date" :{
+                        "type": "string",
+                        "description": "Date when user add product",
+                        "example": "12.12.2022"
+                    }
+                }
+            },
+            "DailyProductsResponse": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                    "type": "string",
+                    "description": "User ID in DB",
+                    "example": "63a9faa1f92d186a59b53c7c"
+                },
+        "weight":{
+            "type": "number",
+            "description": "Weight of eated product",
+            "example": 100
+        } ,
+    "owner": {
+        "type": "string",
+        "description": "User ID",
+        "example": "639faf16c75afa1fe591a84a"
+    },
+    "product": {
+        "type": "object",
+        "properties" :{
+        "categories": {
+            "type": "object",
+            "properties" : {
+                "ru": {
+                    "type":"string",
+                    "example": "зерновыу"
+                },
+            "deu": {
+                "type": "string",
+                "example": "Körner"
+            },
+            "en": {
+                "type":"string",
+                "example": "grains"
+            },
+            "ua": {
+                "type": "string",
+                "example": "зернові"
+            }
+            }
+        },
+        "title": {
+            "type": "object",
+            "properties": {
+"ru": {
+    "type": "string",
+    "example": "Горох маш Ярмарка Платинум"
+},
+            "ua": {
+                "type": "string",
+                "example": "Горох маш Ярмарка Платинум"
+            },
+            "en": {
+                "type": "string",
+                "example": "Platinum Fair Mung Peas"
+            },
+            "deu": {
+                "type": "string",
+                "example": "Mungbohnen Fair Trade Platinum"
+            }
+            }
+        },
+        "_id": {
+            "type":"string",
+            "description": "Product ID",
+            "example": "5d51694802b2373622ff554d"
+        },
+        "weight": {
+            "type": "number",
+            "example": 100
+        },
+        "calories": {
+            "type": "number",
+            "example": 312
+        },
+        "groupBloodNotAllowed":{
+            "type": "array",
+            "items": {
+                "null":null,
+                "true": true,
+                "false": false
+            }
+        },
+        "__v": {
+            "type":"number",
+            "example": 0
+        }
+        }
+    },
+    "intakeCalories": {
+        "type": "number",
+        "example": 312
+    }
+              }
+            },
+            "AllDietResponse" :{
+               "type": "array",
+               "items": {
+                 "type": "object",
+              "properties": {
+                "owner": {
+                        "type": "string",
+                        "description": "owner name",
+                        "example":"John Dou"
+                    },
+                    "product": {
+                        "type": "string",
+                        "description": "Product fo adding",
+                        "example":"Яйцe куряче"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "description": "Weight of eated product",
+                        "example": 121
+                    },
+                    "date" :{
+                        "type": "string",
+                        "description": "Date when user add product",
+                        "example": "12.12.2022"
+                    }
+              },
+                "owner": {
+                        "type": "string",
+                        "description": "owner name",
+                        "example":"John Dou"
+                    },
+                    "product": {
+                        "type": "string",
+                        "description": "Product fo adding",
+                        "example":"Яйцe куряче"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "description": "Weight of eated product",
+                        "example": 121
+                    },
+                    "date" :{
+                        "type": "string",
+                        "description": "Date when user add product",
+                        "example": "12.12.2022"
+                    }
+               }
+            },
+             "OneDietResponse" :{
+               
+                 "type": "object",
+              "properties": {
+                "owner": {
+                        "type": "string",
+                        "description": "owner name",
+                        "example":"John Dou"
+                    },
+                    "product": {
+                        "type": "string",
+                        "description": "Product fo adding",
+                        "example":"Яйцe куряче"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "description": "Weight of eated product",
+                        "example": 121
+                    },
+                    "date" :{
+                        "type": "string",
+                        "description": "Date when user add product",
+                        "example": "12.12.2022"
+                    }
+              }
+            },
+            "GetProductByDate": {
+                "type": "array",
+                "items": {
+                     "type": "object",
+              "properties": {
+                "_id": {
+                    "type": "string",
+                    "description": "User ID in DB",
+                    "example": "63a9faa1f92d186a59b53c7c"
+                },
+        "weight":{
+            "type": "number",
+            "description": "Weight of eated product",
+            "example": 100
+        } ,
+    "owner": {
+        "type": "string",
+        "description": "User ID",
+        "example": "639faf16c75afa1fe591a84a"
+    },
+    "product": {
+        "type": "object",
+        "properties" :{
+        "categories": {
+            "type": "object",
+            "properties" : {
+                "ru": {
+                    "type":"string",
+                    "example": "зерновыу"
+                },
+            "deu": {
+                "type": "string",
+                "example": "Körner"
+            },
+            "en": {
+                "type":"string",
+                "example": "grains"
+            },
+            "ua": {
+                "type": "string",
+                "example": "зернові"
+            }
+            }
+        },
+        "title": {
+            "type": "object",
+            "properties": {
+"ru": {
+    "type": "string",
+    "example": "Горох маш Ярмарка Платинум"
+},
+            "ua": {
+                "type": "string",
+                "example": "Горох маш Ярмарка Платинум"
+            },
+            "en": {
+                "type": "string",
+                "example": "Platinum Fair Mung Peas"
+            },
+            "deu": {
+                "type": "string",
+                "example": "Mungbohnen Fair Trade Platinum"
+            }
+            }
+        },
+        "_id": {
+            "type":"string",
+            "description": "Product ID",
+            "example": "5d51694802b2373622ff554d"
+        },
+        "weight": {
+            "type": "number",
+            "example": 100
+        },
+        "calories": {
+            "type": "number",
+            "example": 312
+        },
+        "groupBloodNotAllowed":{
+            "type": "array",
+            "items": {
+                "null":null,
+                "true": true,
+                "false": false
+            }
+        },
+        "__v": {
+            "type":"number",
+            "example": 0
+        }
+        }
+    },
+    "intakeCalories": {
+        "type": "number",
+        "example": 312
+    }
+              }
+                }
+            },
+            "CreateProduct": {
+                "type":"object",
+                "properties":{
+                    "title": {
+                        "type": "string",
+                        "required": true,
+                        "example": "Roasted potato"
+                    },
+                    "categories": {
+                        "type": "string",
+                        "required": true,
+                        "example": "Potatos"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "required": true,
+                        "example": 200
+                    },
+                    "calories": {
+                        "type": "number",
+                        "required": true,
+                        "example": 1000
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "owner id",
+                        "example":"9379992"
+                    },
+                    "_id": {
+                        "type": "string",
+                        "description": "owner id",
+                        "example":"9379992"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "Time of creation",
+                        "example":"2022-12-26T23:16:04.939Z"
                     }
                 }
             }
