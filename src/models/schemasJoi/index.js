@@ -25,7 +25,7 @@ const schemaFavorite = Joi.object({
 
 const schemaSignUp = Joi.object({
   username: Joi.string().min(2).max(12).required(),
-  password: Joi.string().min(6).max(12).required(),
+  password: Joi.string().min(6).max(12),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
     .required(),
@@ -43,7 +43,7 @@ const schemaCheckReset = Joi.object({
   token: Joi.string().required(),
 });
 const schemaSingIn = Joi.object({
-  password: Joi.string().min(6).max(12).required(),
+  password: Joi.string().min(6).max(12),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'pro'] } })
     .required(),
