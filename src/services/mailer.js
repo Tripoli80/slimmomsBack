@@ -31,7 +31,7 @@ const verifyMailSend = async ({ email, verificationToken }) => {
 };
 
 const resetMailSend = async ({ email, resettoken }) => {
-  const html = `<a href=${process.env.BASE_URL}api/users/verify/${resettoken}>Click on link to verify your email</a>`;
+  const html = `<a href="https://ds-slimmoms.netlify.app/user/reset/${resettoken}">Click on link to verify your email</a>`;
   const emailOptions = {
     from: 'no-reply@uait.pro',
     to: email,
