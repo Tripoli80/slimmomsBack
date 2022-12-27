@@ -9,8 +9,12 @@ const user = new Schema(
     },
     password: {
       type: String,
+<<<<<<< HEAD
 
       // select: false,
+=======
+      select: false,
+>>>>>>> GOOGLE
       // required: [true, 'Password is required'],
     },
     email: {
