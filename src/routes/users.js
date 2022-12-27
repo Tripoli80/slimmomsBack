@@ -39,7 +39,8 @@ router.post('/reset', validatorBody(schemaReset), tryWrapper(resetPassword));
 router.post('/login', validatorBody(schemaSingIn), tryWrapper(logInUser));
 router.get('/logout', tryWrapper(auth), tryWrapper(logout));
 // router.get('/verify/:verificationToken', tryWrapper(verify));
-router.post('/verify', validatorBody(schemaReVerify), tryWrapper(reVerify)); 
+// router.post('/verify', validatorBody(schemaReVerify), tryWrapper(reVerify));
+// router.post('/verify', validatorBody(schemaReVerify), tryWrapper(reVerify)); 
 router.get('/current', tryWrapper(auth), tryWrapper(current));
 router.post('/refresh', tryWrapper(auth), tryWrapper(relogIn));
 
