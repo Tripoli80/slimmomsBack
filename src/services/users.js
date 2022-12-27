@@ -6,7 +6,8 @@ const { generateToken } = require('../helpers/generateToken');
 const User = require('../models/schemasMongoose/users');
 
 const addNewUser = async newUser => {
-  const { password, email, username, token = null } = newUser;
+  let { password, email, username, token = null } = newUser;
+  email = email.toLowerCase();
   const user = new User({
     password,
     email,
@@ -48,7 +49,7 @@ const saveNewPassword = async ({ password, token }) => {
   const user = await User.findOne({ resettoken: token });
   if (!user) throw new NotFound('token is wrong');
   user.password = password;
-  user.resettoken = "";
+  user.resettoken = '';
 
   try {
     await user.save();
@@ -62,7 +63,8 @@ const saveNewPassword = async ({ password, token }) => {
 };
 
 const authenticateUser = async ({ body }) => {
-  const { password, email } = body;
+  let { password, email } = body;
+  email = email.toLowerCase();
   const user = await User.findOne({ email });
   if (!user) throw new Unauthorized('mail or password is wrong');
   // check password!
