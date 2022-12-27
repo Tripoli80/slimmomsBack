@@ -81,7 +81,6 @@ const authenticateUser = async ({ body }) => {
     throw new Error({ massage: 'Cannot generate user token' });
   }
 };
-
 const refreshToken = async ({ userId }) => {
   const user = await User.findById(userId);
   // chack user!
