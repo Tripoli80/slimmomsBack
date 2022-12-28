@@ -119,7 +119,7 @@
             }
         },
         "/api/users/refresh": {
-            "get": {
+            "post": {
                 "tags": ["Auth"],
                 "produces": [
           "application/json"
@@ -251,6 +251,42 @@
                                 "message": "Token is valid"
                             }
                         }
+                    },
+                    "404" : {
+                        "description": "Token is wrong",
+                        "content" : {}
+                    }
+                }
+            }
+        },
+        "/api/users/reset": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Reset password",
+                "parameters": [],
+                "requestBody": {
+                 "description": "Reset password object",
+                 "required": true,
+                 "content":{
+                    "application/json": {
+                        "schema": {
+                            "$ref":"#/components/schemas/RessetPasssworRequest"
+                        }
+                    }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull password change",
+                        "content" : {
+                            "application/json" :{
+                                "message": "Password sucsess changed"
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Bad Request (password length)",
+                        "content" : {}
                     },
                     "404" : {
                         "description": "Token is wrong",
@@ -1123,6 +1159,22 @@
                         "type": "string",
                         "description": "Time of creation",
                         "example":"2022-12-26T23:16:04.939Z"
+                    }
+                }
+            },
+            "RessetPasssworRequest": {
+                "type": "object",
+                "required": ["password", "token"],
+                "properties" :{
+                    "password" : {
+                        "type": "string",
+                        "description" : "New password",
+                        "example" : "password123"
+                    },
+                    "token" : {
+                        "type" : "string",
+                        "description": "verification Token",
+                        "example": "5d51694802b2373622ff553b"
                     }
                 }
             }

@@ -29,9 +29,9 @@ const {
 const ss = process.std;
 const router = express.Router();
 
-router.post('/signup', validatorBody(schemaSignUp), tryWrapper(singUpUser)); //
-router.post('/mailtoreset', validatorBody(schemaMailReset), tryWrapper(resetMailPassword));//
-router.post('/checktoreset', validatorBody(schemaCheckReset), tryWrapper(checkTokenToReset));//
+router.post('/signup', validatorBody(schemaSignUp), tryWrapper(singUpUser)); 
+router.post('/mailtoreset', validatorBody(schemaMailReset), tryWrapper(resetMailPassword));
+router.post('/checktoreset', validatorBody(schemaCheckReset), tryWrapper(checkTokenToReset));
 router.post('/reset', validatorBody(schemaReset), tryWrapper(resetPassword));
 
 router.post('/login', validatorBody(schemaSingIn), tryWrapper(logInUser));
@@ -40,7 +40,7 @@ router.get('/logout', tryWrapper(auth), tryWrapper(logout));
 // router.post('/verify', validatorBody(schemaReVerify), tryWrapper(reVerify));
 // router.post('/verify', validatorBody(schemaReVerify), tryWrapper(reVerify));
 router.get('/current', tryWrapper(auth), tryWrapper(current));
-router.get('/refresh', tryWrapper(auth), tryWrapper(relogIn));
+router.post('/refresh', tryWrapper(auth), tryWrapper(relogIn));
 router.get('/google', tryWrapper(googleAuth));
 router.get('/google-redirect', tryWrapper(googleRedirect));
 
