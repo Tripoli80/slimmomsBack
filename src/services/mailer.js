@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const { getMailLetterToResetPass } = require('../helpers/generateHTMLtomail');
 require('dotenv').config();
 
 const passwordMail = process.env.MAIL_PASSWORD;
@@ -31,12 +32,15 @@ const verifyMailSend = async ({ email, verificationToken }) => {
 };
 
 const resetMailSend = async ({ email, resettoken }) => {
-  const html = `<a href="https://ds-slimmoms.netlify.app/user/reset/${resettoken}">Click on link to verify your email</a>`;
+  const letter = getMailLetterToResetPass(
+    `https://ds-slimmoms.netlify.app/user/reset/${resettoken}`
+  );
+  // const html = `<a href="">Click on link to verify your email</a>`;
   const emailOptions = {
     from: 'no-reply@uait.pro',
     to: email,
     subject: 'Slims Mom password reset',
-    html: html,
+    html: letter,
   };
   try {
     const response = await transporter.sendMail(emailOptions);
