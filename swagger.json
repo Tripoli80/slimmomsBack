@@ -118,6 +118,37 @@
                 }
             }
         },
+        "/api/users/refresh": {
+            "post": {
+                "tags": ["Auth"],
+                "produces": [
+          "application/json"
+        ],
+                "summary": "Refresh token",
+                "parameters": [],
+                "security":[{"Bearer":[]}],
+                "responses" : {
+                    "200" : {
+                        "description": "Ok",
+                        "content" : {
+                             "application/json" : {
+                             "schema" :{
+                                    "$ref": "#/components/schemas/LoginResponse"
+                             }
+                        }
+                        }
+                    },
+                    "401" : {
+                        "description": "Unauthorized",
+                        "content" : {}
+                    },
+                    "404" : {
+                        "description": "User not found",
+                        "content" : {}
+                    }
+                }
+            }
+        },
         "/api/users/logout": {
             "get": {
                 "tags": ["Auth"],
@@ -228,6 +259,42 @@
                 }
             }
         },
+        "/api/users/reset": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Reset password",
+                "parameters": [],
+                "requestBody": {
+                 "description": "Reset password object",
+                 "required": true,
+                 "content":{
+                    "application/json": {
+                        "schema": {
+                            "$ref":"#/components/schemas/RessetPasssworRequest"
+                        }
+                    }
+                 }
+                },
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull password change",
+                        "content" : {
+                            "application/json" :{
+                                "message": "Password sucsess changed"
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Bad Request (password length)",
+                        "content" : {}
+                    },
+                    "404" : {
+                        "description": "Token is wrong",
+                        "content" : {}
+                    }
+                }
+            }
+        },
         "/api/products/": {
             "get": {
                 "tags": ["Products"],
@@ -316,35 +383,9 @@
             "content": {}
           }          
                 }
-            },
-            "get": {
-                "tags": ["Diet"],
-                "summary": "User diet",
-                "parameters": [],
-                "security": [{"Bearer": []}],
-                "responses" : {
-                    "200" : {
-                        "description": "Succesfull",
-                        "content" : {
-                            "application/json" : {
-                            "schema" :{
-                                    "$ref": "#/components/schemas/AllDietResponse"
-                            }
-                        }
-                        }
-                    },
-                         "400": {
-            "description": "Bad Request",
-            "content": {}
-          }   ,
-                       "401": {
-            "description": "Unauthorized",
-            "content": {}
-          }   
-                }
             }
         },
-        "/api/diet/personal": {
+        "/api/diet": {
             "post": {
                 "tags": ["Diet"],
                 "summary": "Diet for auth users",
@@ -376,6 +417,32 @@
             "description": "Bad Request",
             "content": {}
           }          
+                }
+            },
+            "get": {
+                "tags": ["Diet"],
+                "summary": "User diet",
+                "parameters": [],
+                "security": [{"Bearer": []}],
+                "responses" : {
+                    "200" : {
+                        "description": "Succesfull",
+                        "content" : {
+                            "application/json" : {
+                            "schema" :{
+                                    "$ref": "#/components/schemas/AllDietResponse"
+                            }
+                        }
+                        }
+                    },
+                         "400": {
+            "description": "Bad Request",
+            "content": {}
+          }   ,
+                       "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }   
                 }
             }
         },
@@ -487,7 +554,7 @@
         "/api/daily/" :{
             "get": {
                 "tags": ["Daily products"],
-                "summary": "Daily products",
+                "summary": "Daily products, find products by date",
                 "parameters": [
                     {
 "name": "date",
@@ -600,6 +667,10 @@
                         "email": {
                             "type": "string",
                             "format":"email"
+                        },
+                        "username": {
+                            "type": "string",
+                            "format":"John Dou"
                         }
                     }
                 }
@@ -627,7 +698,7 @@
             },         
              "CurrentResponse" : {
              "type": "object",
-                "required": ["email","username"],
+                "required": ["email","username","_id"],
                 "properties" : {
                  "username" : {
                     "type": "string",
@@ -638,6 +709,11 @@
                     "type": "string",
                     "description" : "User email",
                     "format": "email"
+                },
+                "_id" : {
+                    "type": "string",
+                    "description" : "User ID",
+                    "example":"9379992a"
                 }
             }
             },
@@ -1083,6 +1159,22 @@
                         "type": "string",
                         "description": "Time of creation",
                         "example":"2022-12-26T23:16:04.939Z"
+                    }
+                }
+            },
+            "RessetPasssworRequest": {
+                "type": "object",
+                "required": ["password", "token"],
+                "properties" :{
+                    "password" : {
+                        "type": "string",
+                        "description" : "New password",
+                        "example" : "password123"
+                    },
+                    "token" : {
+                        "type" : "string",
+                        "description": "verification Token",
+                        "example": "5d51694802b2373622ff553b"
                     }
                 }
             }
