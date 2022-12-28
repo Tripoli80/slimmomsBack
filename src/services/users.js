@@ -29,7 +29,7 @@ const addNewUser = async newUser => {
 
 const sendMailToResetPassword = async ({ email }) => {
   const user = await User.findOne({ email });
-  if (!user) throw new Unauthorized('mail or password is wrong');
+  if (!user) throw new NotFound(`User whith email ${email} did not find`);
   const resettoken = uid(32);
   user.resettoken = resettoken;
   try {

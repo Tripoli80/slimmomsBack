@@ -12,6 +12,8 @@ const smtpConfig = {
     pass: passwordMail,
   },
 };
+// const frontUrl = 'http://localhost:3000';
+const frontUrl = 'https://ds-slimmoms.netlify.app';
 
 const transporter = nodemailer.createTransport(smtpConfig);
 
@@ -32,9 +34,7 @@ const verifyMailSend = async ({ email, verificationToken }) => {
 };
 
 const resetMailSend = async ({ email, resettoken }) => {
-  const letter = getMailLetterToResetPass(
-    `https://ds-slimmoms.netlify.app/user/reset/${resettoken}`
-  );
+  const letter = getMailLetterToResetPass(`${frontUrl}/reset/${resettoken}`);
   // const html = `<a href="">Click on link to verify your email</a>`;
   const emailOptions = {
     from: 'no-reply@uait.pro',

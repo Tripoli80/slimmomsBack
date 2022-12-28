@@ -12,10 +12,8 @@ const dietRouter = require('./routes/diet');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 const dailyRouter = require('./routes/dailyproducts');
-const { connectDB } = require('./helpers/reconectMonggose');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
