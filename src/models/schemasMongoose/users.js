@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { array } = require('joi');
 
 const { Schema, model } = require('mongoose');
 const user = new Schema(
@@ -19,8 +20,8 @@ const user = new Schema(
       unique: true,
     },
     token: {
-      type: String,
-      default: null,
+      type: Array,
+      default: [],
     },
     longtoken: {
       type: String,
