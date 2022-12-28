@@ -1,7 +1,6 @@
 const queryString = require('query-string');
 const axios = require('axios');
 const User = require('../models/schemasMongoose/users');
-const jwt = require('jsonwebtoken');
 const { generateToken } = require('../helpers/generateToken');
 const URL = require('url').URL;
 
