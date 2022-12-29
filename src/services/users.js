@@ -48,7 +48,7 @@ const sendMailToResetPassword = async ({ email }) => {
 const validateTokenToReset = async ({ token }) => {
   // (" 🚀~ file: users.js:41 ~ validateTokenToReset ~ token", token)
   const user = await User.findOne({ resettoken: token });
-  if (!user) throw new NotFound('token is wrong');
+  if (!user) return { massage: 'Token invalid' };;
   return { massage: 'Token valid' };
 };
 
