@@ -93,7 +93,6 @@ const refreshToken = async ({ userId }) => {
   // chack user!
   if (!user) throw new Unauthorized('Not authorized');
   const { token, longToken } = await generateToken(user._id);
-  console.log('🚀 ~ file: users.js:93 ~ refreshToken ~ token', token);
   user.token = [...user.token, token];
 
   user.longtoken = longToken;

@@ -43,13 +43,13 @@ exports.googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   });
-  console.log(userData.data);
 
   let newUser = await User.findOne({ email: userData.data.email });
   if (!newUser) {
     newUser = await User.create({
       username: userData.data.name,
       email: userData.data.email,
+      token: [],
     });
   }
 

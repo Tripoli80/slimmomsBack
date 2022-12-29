@@ -15,7 +15,6 @@ const auth = async (req, res, next) => {
   if (typeToken !== 'Bearer') return next(new Unauthorized(`Type authorization not "Bearer"`));
   try {
     const result  = jwt.verify(token, secret);
-    console.log("🚀 ~ file: auth.js:17 ~ auth ~ result", result)
     const { _id } = result;
     
     const user = await User.findById(_id);
@@ -28,7 +27,6 @@ const auth = async (req, res, next) => {
     return next();
   } catch (error) {    
     const res =await removeExpToken(token)
-    console.log("🚀 res", res)
     if (error.name) return next(new Unauthorized(error.name));
     return next(error);
   }

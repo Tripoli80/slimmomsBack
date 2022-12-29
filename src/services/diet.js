@@ -10,6 +10,7 @@ const getGuestDiet = async data => {
   return {
     dailyCalorie,
     products,
+    type:"nAuth"
   };
 };
 

@@ -3,8 +3,7 @@ const { getGuestDiet, createPersonalDiet, getLastDiet, getLastDiets } = require(
 const guestDiet = async (req, res, next) => {
   const { body } = req;
   if (req.headers.authorization) { 
-    return next()
-    
+    return next()    
   }
   const response = await getGuestDiet(body);
   return res.status(200).json(response);
