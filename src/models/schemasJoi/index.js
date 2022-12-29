@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const schemaPOST = Joi.object({
-  name: Joi.string().alphanum().min(3).max(30).required(),
+  name: Joi.string().alphanum().min(3).max(254).required(),
 
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
@@ -11,7 +11,7 @@ const schemaPOST = Joi.object({
 });
 
 const schemaPUT = Joi.object({
-  name: Joi.string().alphanum().min(3).max(30),
+  name: Joi.string().alphanum().min(3).max(254),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
@@ -23,8 +23,8 @@ const schemaFavorite = Joi.object({
 });
 
 const schemaSignUp = Joi.object({
-  username: Joi.string().min(2).max(12).required(),
-  password: Joi.string().min(6).max(12).required(),
+  username: Joi.string().min(3).max(254).required(),
+  password: Joi.string().min(8).max(100).required(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
@@ -35,14 +35,14 @@ const schemaMailReset = Joi.object({
     .required(),
 });
 const schemaReset = Joi.object({
-  password: Joi.string().min(6).max(12).required(),
+  password: Joi.string().min(8).max(100).required(),
   token: Joi.string().required(),
 });
 const schemaCheckReset = Joi.object({
   token: Joi.string().required(),
 });
 const schemaSingIn = Joi.object({
-  password: Joi.string().min(6).max(12).required(),
+  password: Joi.string().min(8).max(100).required(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { deny: ['ru'] } })
     .required(),
