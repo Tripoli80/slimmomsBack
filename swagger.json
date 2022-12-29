@@ -551,7 +551,7 @@
                 }
             }
         },
-        "/api/daily/" :{
+        "/api/daily" :{
             "get": {
                 "tags": ["Daily products"],
                 "summary": "Daily products, find products by date",
