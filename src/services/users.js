@@ -12,16 +12,19 @@ const addNewUser = async newUser => {
     password,
     email,
     username,
-    token: null,
+    token: [],
   });
 
   try {
     let result = await user.save();
     const { token, longToken } = await generateToken(result._id);
-    result.token = token;
+    // result.token = token;
+    result.token.push(token);
+
     result.longtoken = longToken;
     const response = await result.save();
-    return response;
+    // return { ...response, token };
+    return { ...response, token };
   } catch (error) {
     throw new Conflict('Email in use');
   }
@@ -75,12 +78,12 @@ const authenticateUser = async ({ body }) => {
   if (!(await bcrypt.compare(password, user.password)))
     throw new Unauthorized('mail or password is wrong');
   const { token, longToken } = await generateToken(user._id);
-  user.token = token;
-  user.longtoken = longToken;
 
+  user.token = [...user.token, token];
+  // user.longtoken = longToken;
   try {
     await user.save();
-    return user;
+    return { user, token };
   } catch (error) {
     throw new Error({ massage: 'Cannot generate user token' });
   }
@@ -90,12 +93,15 @@ const refreshToken = async ({ userId }) => {
   // chack user!
   if (!user) throw new Unauthorized('Not authorized');
   const { token, longToken } = await generateToken(user._id);
-  user.token = token;
+  console.log('🚀 ~ file: users.js:93 ~ refreshToken ~ token', token);
+  user.token = [...user.token, token];
+
   user.longtoken = longToken;
   // generate and save JWT
   try {
     await user.save();
-    return user;
+
+    return { ...user, token };
   } catch (error) {
     throw new Error({ massage: 'Cannot generate user token' });
   }
@@ -105,8 +111,7 @@ const singOut = async ({ userId }) => {
   const user = await User.findById(userId);
   if (!user) throw new Unauthorized('Not authorized');
   try {
-    user.token = null;
-    user.longtoken = null;
+    user.token = [];
     await user.save();
     return;
   } catch (error) {

@@ -54,7 +54,7 @@ exports.googleRedirect = async (req, res) => {
   }
 
   const { token, longToken } = await generateToken(newUser._id);
-  newUser.token = token;
+  newUser.token = [...newUser.token, token];
   newUser.longtoken = longToken;
 
   await newUser.save();
