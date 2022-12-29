@@ -12,7 +12,9 @@ const {
 } = require('../services/users');
 
 const singUpUser = async (req, res) => {
-  const { email, username, longtoken, token } = await addNewUser(req.body);
+  const {_doc, token} = await addNewUser(req.body);
+  const { email, username, longtoken } = _doc;
+
   return res.status(201).json({ user: { email, username }, longtoken, token });
 };
 const resetMailPassword = async (req, res) => {
@@ -30,7 +32,8 @@ const resetPassword = async (req, res) => {
 };
 
 const logInUser = async (req, res) => {
-  const { token, longtoken, email, username } = await authenticateUser(req);
+  const { token, user } = await authenticateUser(req);
+  const { longtoken, email, username } = user;
   res.status(200);
   return res.json({
     token,
