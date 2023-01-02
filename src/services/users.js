@@ -31,6 +31,7 @@ const addNewUser = async newUser => {
 };
 
 const sendMailToResetPassword = async ({ email }) => {
+  email = email.toLowerCase();
   const user = await User.findOne({ email });
   if (!user) throw new NotFound(`User whith email ${email} did not find`);
   const resettoken = uid(32);
@@ -48,7 +49,7 @@ const sendMailToResetPassword = async ({ email }) => {
 const validateTokenToReset = async ({ token }) => {
   // (" 🚀~ file: users.js:41 ~ validateTokenToReset ~ token", token)
   const user = await User.findOne({ resettoken: token });
-  if (!user) return { message: 'Token invalid' };;
+  if (!user) return { message: 'Token invalid' };
   return { message: 'Token valid' };
 };
 
